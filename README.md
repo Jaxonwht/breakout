@@ -3,13 +3,13 @@ game
 
 This project implements the game of Breakout.
 
-Name: 
+Name: Haotian Wang
 
 ### Timeline
 
-Start Date: 
+Start Date: 09/03/2018
 
-Finish Date: 
+Finish Date: 09/09/2018
 
 Hours Spent:
 
