@@ -1,4 +1,4 @@
-package example;
+package breakout;
 
 import java.util.Random;
 import javafx.geometry.Point2D;
