@@ -1,4 +1,4 @@
-module game_hw186 {
+module game_hw {
     requires javafx.base;
     requires javafx.controls;
     requires javafx.graphics;
