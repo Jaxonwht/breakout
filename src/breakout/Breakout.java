@@ -36,6 +36,7 @@ public class Breakout extends Application {
     // objects used in this game
     private Scene myScene;
     private Brick myBrick;
+    private List<Brick> myBricks;
     private Bouncer myBouncer;
     private Powerup myPowerup;
 
@@ -98,7 +99,7 @@ public class Breakout extends Application {
             myMover.setFill(MOVER_COLOR);
         }
         // with images can only check bounding box
-        for (Bouncer b : myBouncers) {
+        for (Brick brick : myBricks) {
             if (myGrower.getBoundsInParent().intersects(b.getView().getBoundsInParent())) {
                 myGrower.setFill(HIGHLIGHT);
             }

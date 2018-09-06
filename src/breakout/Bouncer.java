@@ -1,10 +1,11 @@
 package breakout;
 
-import java.util.Random;
 import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+
+import java.util.Random;
 
 
 /**
@@ -15,12 +16,12 @@ import javafx.scene.image.ImageView;
 public class Bouncer {
     public static final int BOUNCER_MIN_SPEED = -100;
     public static final int BOUNCER_MAX_SPEED = 100;
-    public static final int BOUNCER_MIN_SIZE = 10;
-    public static final int BOUNCER_MAX_SIZE = 25;
+    public static final int BOUNCER_Y_SPEED = 50;
+    public static final int BOUNCER_SIZE = 20;
 
-    private Random dice = new Random();
     private ImageView myView;
     private Point2D myVelocity;
+    private Random dice;
 
 
     /**
@@ -29,15 +30,13 @@ public class Bouncer {
     public Bouncer (Image image, int screenWidth, int screenHeight) {
         myView = new ImageView(image);
         // make sure it stays a circle
-        int size = getRandomInRange(BOUNCER_MIN_SIZE, BOUNCER_MAX_SIZE);
-        myView.setFitWidth(size);
-        myView.setFitHeight(size);
+        myView.setFitWidth(BOUNCER_SIZE);
+        myView.setFitHeight(BOUNCER_SIZE);
         // make sure it stays within the bounds
-        myView.setX(getRandomInRange(size,  screenWidth - size));
-        myView.setY(getRandomInRange(size, screenHeight - size));
+        myView.setX(screenWidth / 2);
+        myView.setY(BOUNCER_SIZE);
         // turn speed into velocity that can be updated on bounces
-        myVelocity = new Point2D(getRandomInRange(BOUNCER_MIN_SPEED, BOUNCER_MAX_SPEED),
-                getRandomInRange(BOUNCER_MIN_SPEED, BOUNCER_MAX_SPEED));
+        myVelocity = new Point2D(getRandomInRange(BOUNCER_MIN_SPEED, BOUNCER_MAX_SPEED), BOUNCER_Y_SPEED);
     }
 
     /**
@@ -64,6 +63,14 @@ public class Bouncer {
     }
 
     /**
+     * Bounce off normal bricks defined in the game.
+     * @param brick
+     */
+    public void bounceBricks (Brick brick) {
+
+    }
+
+    /**
      * Returns internal view of bouncer to interact with other JavaFX methods.
      */
     public Node getView () {
@@ -72,6 +79,6 @@ public class Bouncer {
 
     // Returns an "interesting", non-zero random value in the range (min, max)
     private int getRandomInRange (int min, int max) {
-        return min + dice.nextInt(max - min) + 1;
+        return min + dice.nextInt(max - min + 1);
     }
 }
