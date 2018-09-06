@@ -12,31 +12,45 @@ import java.util.Random;
  * The destructible brick used in the game. They can reflect balls too.
  */
 public class Brick {
-    public static final int BOUNCER_MIN_SPEED = -100;
-    public static final int BOUNCER_MAX_SPEED = 100;
-    public static final int BOUNCER_MIN_SIZE = 10;
-    public static final int BOUNCER_MAX_SIZE = 25;
+    public static final String NORMAL_BRICK_IMAGE = "brick1.gif";
+    public static final String HARD_BRICK_IMAGE = "brick2.gif";
+    public static final String POWERUP_BRICK = "brick3.gif";
+    public static final double POWERUP_PROBABILITY = 0.1;
+    public static final double HARD_BRICK_PROBABILITY = 0.2;
 
     private Random dice = new Random();
     private ImageView myView;
-    private Point2D myVelocity;
+    private boolean hasPowerup;
+    private boolean exists;
+    private int xCoordinate;
+    private int yCoordinate;
+    private int myBrickWidth;
+    private int myBrickHeight;
+    private double myProbability;
 
 
     /**
      * Create a bouncer from a given image with random attributes.
      */
-    public Brick (Image image, int screenWidth, int screenHeight) {
-        myView = new ImageView(image);
-        // make sure it stays a circle
-        int size = getRandomInRange(BOUNCER_MIN_SIZE, BOUNCER_MAX_SIZE);
-        myView.setFitWidth(size);
-        myView.setFitHeight(size);
-        // make sure it stays within the bounds
-        myView.setX(getRandomInRange(size,  screenWidth - size));
-        myView.setY(getRandomInRange(size, screenHeight - size));
-        // turn speed into velocity that can be updated on bounces
-        myVelocity = new Point2D(getRandomInRange(BOUNCER_MIN_SPEED, BOUNCER_MAX_SPEED),
-                getRandomInRange(BOUNCER_MIN_SPEED, BOUNCER_MAX_SPEED));
+    public Brick (int x, int y, int brickWidth, int brickHeight, double probability) {
+        xCoordinate = x;
+        yCoordinate = y;
+        myBrickHeight = brickHeight;
+        myBrickWidth = brickWidth;
+        myProbability = probability;
+        exists = dice.nextDouble() > myProbability;
+        hasPowerup = dice.nextDouble() < POWERUP_PROBABILITY;
+        generateView();
+    }
+
+    /**
+     * Generate the view or image for different kinds of bricks
+     */
+    private void generateView () {
+        if (exists) {
+            if ()
+                    myView = new Image(this.getClass().getClassLoader().getResourceAsStream(brickImage));
+        }
     }
 
     /**

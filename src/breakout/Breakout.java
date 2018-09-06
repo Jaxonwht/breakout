@@ -68,33 +68,36 @@ public class Breakout extends Application {
         // create a place to see the shapes
         var scene = new Scene(root, width, height, background);
         // make some shapes and set their properties
-        var image = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
-        var myBouncer = new Bouncer(image, width, height);
+        var paddleImage = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
+        var myBouncer = new Bouncer(paddleImage, width, height);
         root.getChildren().add(myBouncer.getView());
         // make some bricks
-        generateBricks(4, width, height);
-        myMover = new Rectangle(width / 2 - 25, height / 2 - 100, MOVER_SIZE, MOVER_SIZE);
-        myMover.setFill(MOVER_COLOR);
-        myGrower = new Rectangle(width / 2 - 25, height / 2 + 50, GROWER_SIZE, GROWER_SIZE);
-        myGrower.setFill(GROWER_COLOR);
-        // order added to the group is the order in which they are drawn
-        root.getChildren().add(myMover);
+        generateBricks(root,4, width, height);
         // respond to input
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
         return scene;
     }
 
-    // Generate bricks based on an algorithm.
-    private void generateBricks (int layer, int width, int height) {
-        var probabilities = new ArrayList<>();
+    /**
+     * Generate bricks based on an algorithm.
+     * @param layer Number of rows of bricks.
+     * @param width Width of the screen of playing.
+     * @param height Height of the screen of playing.
+     */
+    private void generateBricks (Group root, int layer, int width, int height) {
+        var probabilities = new ArrayList<Double>();
         for (int i = 0; i < layer; i++) {
             probabilities.add(HIGH_PROBABILITY / layer * (i + 1));
         }
-        var brickWidth = width / BRICKS_PER_ROW;
-        var brickHeight = ROWS_HEIGHT / layer;
-        for (int x = brickWidth / 2; x < width - brickWidth; x += brickWidth) {
-            for (int y = height - brickHeight - )
+        int brickWidth = width / BRICKS_PER_ROW;
+        int brickHeight = ROWS_HEIGHT / layer;
+        for (int x = brickWidth; x < width - brickWidth; x += brickWidth) {
+            for (int i = 0; i < layer; i++) {
+                int y = height - brickHeight * (i + 1);
+                var myBrick = new Brick(x, y, brickWidth, brickHeight, probabilities.get(i));
+                root.getChildren().add(myBrick.getView());
+            }
         }
     }
 
