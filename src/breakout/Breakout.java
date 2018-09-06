@@ -31,6 +31,9 @@ public class Breakout extends Application {
     public static final Paint BACKGROUND = Color.AZURE;
     public static final Paint HIGHLIGHT = Color.OLIVEDRAB;
     public static final String BOUNCER_IMAGE = "ball.gif";
+    public static final double HIGH_PROBABILITY = 0.8;
+    public static final int BRICKS_PER_ROW = 10;
+    public static final int ROWS_HEIGHT = (int) 0.6 * HEIGHT;
 
 
     // objects used in this game
@@ -68,17 +71,31 @@ public class Breakout extends Application {
         var image = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
         var myBouncer = new Bouncer(image, width, height);
         root.getChildren().add(myBouncer.getView());
+        // make some bricks
+        generateBricks(4, width, height);
         myMover = new Rectangle(width / 2 - 25, height / 2 - 100, MOVER_SIZE, MOVER_SIZE);
         myMover.setFill(MOVER_COLOR);
         myGrower = new Rectangle(width / 2 - 25, height / 2 + 50, GROWER_SIZE, GROWER_SIZE);
         myGrower.setFill(GROWER_COLOR);
         // order added to the group is the order in which they are drawn
         root.getChildren().add(myMover);
-        root.getChildren().add(myGrower);
         // respond to input
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
         return scene;
+    }
+
+    // Generate bricks based on an algorithm.
+    private void generateBricks (int layer, int width, int height) {
+        var probabilities = new ArrayList<>();
+        for (int i = 0; i < layer; i++) {
+            probabilities.add(HIGH_PROBABILITY / layer * (i + 1));
+        }
+        var brickWidth = width / BRICKS_PER_ROW;
+        var brickHeight = ROWS_HEIGHT / layer;
+        for (int x = brickWidth / 2; x < width - brickWidth; x += brickWidth) {
+            for (int y = height - brickHeight - )
+        }
     }
 
     // Change properties of shapes to animate them
