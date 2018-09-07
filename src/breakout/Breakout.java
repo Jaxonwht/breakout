@@ -38,7 +38,6 @@ public class Breakout extends Application {
 
     // objects used in this game
     private Scene myScene;
-    private Brick myBrick;
     private List<Brick> myBricks;
     private Bouncer myBouncer;
     private Powerup myPowerup;
@@ -97,6 +96,7 @@ public class Breakout extends Application {
                 int y = height - brickHeight * (i + 1);
                 var myBrick = new Brick(x, y, brickWidth, brickHeight, probabilities.get(i));
                 root.getChildren().add(myBrick.getView());
+                myBricks.add(myBrick);
             }
         }
     }
@@ -106,28 +106,14 @@ public class Breakout extends Application {
     private void step (double elapsedTime) {
         // update attributes
         myBouncer.move(elapsedTime);
-        myMover.setRotate(myMover.getRotate() - 1);
-        myGrower.setRotate(myGrower.getRotate() + 1);
 
-        // check for collisions
-        // with shapes, can check precisely
-        var intersect = Shape.intersect(myMover, myGrower);
-        if (intersect.getBoundsInLocal().getWidth() != -1) {
-            myMover.setFill(HIGHLIGHT);
-        }
-        else {
-            myMover.setFill(MOVER_COLOR);
-        }
         // with images can only check bounding box
         for (Brick brick : myBricks) {
-            if (myGrower.getBoundsInParent().intersects(b.getView().getBoundsInParent())) {
-                myGrower.setFill(HIGHLIGHT);
-            }
+            myBouncer.bounceBrick(brick);
         }
 
         // bounce off all the walls
-        for (Bouncer b : myBouncers) {
-            b.bounce(myScene.getWidth(), myScene.getHeight());
+        myBouncer.bounce(myScene.getWidth(), myScene.getHeight());
         }
     }
 

@@ -17,7 +17,7 @@ public class Bouncer {
     public static final int BOUNCER_MIN_SPEED = -100;
     public static final int BOUNCER_MAX_SPEED = 100;
     public static final int BOUNCER_Y_SPEED = 50;
-    public static final int BOUNCER_SIZE = 20;
+    public static final int BOUNCER_SIZE = 5;
 
     private ImageView myView;
     private Point2D myVelocity;
@@ -66,8 +66,10 @@ public class Bouncer {
      * Bounce off normal bricks defined in the game.
      * @param brick
      */
-    public void bounceBricks (Brick brick) {
-
+    public void bounceBrick (Brick brick) {
+        if (brick.getExists() && myView.getBoundsInParent().intersects(brick.getView().getBoundsInParent())) {
+            myVelocity = new Point2D(my1)
+        }
     }
 
     /**

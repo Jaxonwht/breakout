@@ -1,6 +1,5 @@
 package breakout;
 
-import javafx.geometry.Point2D;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -14,18 +13,16 @@ import java.util.Random;
 public class Brick {
     public static final String NORMAL_BRICK_IMAGE = "brick1.gif";
     public static final String HARD_BRICK_IMAGE = "brick2.gif";
-    public static final String POWERUP_BRICK = "brick3.gif";
+    public static final String POWERUP_BRICK_IMAGE = "brick3.gif";
+    public static final String HARD_AND_POWERUP_BRICK_IMAGE = "brick4.gif";
     public static final double POWERUP_PROBABILITY = 0.1;
-    public static final double HARD_BRICK_PROBABILITY = 0.2;
+    public static final double HARD_PROBABILITY = 0.2;
 
     private Random dice = new Random();
     private ImageView myView;
     private boolean hasPowerup;
+    private boolean isHard;
     private boolean exists;
-    private int xCoordinate;
-    private int yCoordinate;
-    private int myBrickWidth;
-    private int myBrickHeight;
     private double myProbability;
 
 
@@ -33,46 +30,33 @@ public class Brick {
      * Create a bouncer from a given image with random attributes.
      */
     public Brick (int x, int y, int brickWidth, int brickHeight, double probability) {
-        xCoordinate = x;
-        yCoordinate = y;
-        myBrickHeight = brickHeight;
-        myBrickWidth = brickWidth;
         myProbability = probability;
         exists = dice.nextDouble() > myProbability;
-        hasPowerup = dice.nextDouble() < POWERUP_PROBABILITY;
-        generateView();
+        hasPowerup = exists && dice.nextDouble() < POWERUP_PROBABILITY;
+        isHard = exists && dice.nextDouble() < HARD_PROBABILITY;
+        generateView(x, y, brickWidth, brickHeight);
     }
 
     /**
-     * Generate the view or image for different kinds of bricks
+     * Generate the view or image for different kinds of bricks. There are three appearances of a brick, has powerup and ishard, has powerup and is not hard, and does not have powerup and is hard.
      */
-    private void generateView () {
+    private void generateView (int x, int y, int brickWidth, int brickHeight) {
+        // Only creates myView if events happen with the probability.
         if (exists) {
-            if ()
-                    myView = new Image(this.getClass().getClassLoader().getResourceAsStream(brickImage));
+            var brickImage = NORMAL_BRICK_IMAGE;
+            if (isHard && hasPowerup) {brickImage = HARD_AND_POWERUP_BRICK_IMAGE;}
+            else if (isHard && !hasPowerup) {brickImage = HARD_BRICK_IMAGE;}
+            else if (!isHard && hasPowerup) {brickImage = POWERUP_BRICK_IMAGE;}
+            myView = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream(brickImage)));
+            // Set the position of the created brick.
+            myView.setX(x);
+            myView.setY(y);
+            // Set the size of the created brick.
+            myView.setFitHeight(brickHeight);
+            myView.setFitWidth(brickWidth);
         }
-    }
-
-    /**
-     * Move by taking one step based on its velocity.
-     *
-     * Note, elapsedTime is used to ensure consistent speed across different machines.
-     */
-    public void move (double elapsedTime) {
-        myView.setX(myView.getX() + myVelocity.getX() * elapsedTime);
-        myView.setY(myView.getY() + myVelocity.getY() * elapsedTime);
-    }
-
-    /**
-     * Bounce off the walls represented by the edges of the screen.
-     */
-    public void bounce (double screenWidth, double screenHeight) {
-        // collide all bouncers against the walls
-        if (myView.getX() < 0 || myView.getX() > screenWidth - myView.getBoundsInLocal().getWidth()) {
-            myVelocity = new Point2D(-myVelocity.getX(), myVelocity.getY());
-        }
-        if (myView.getY() < 0 || myView.getY() > screenHeight - myView.getBoundsInLocal().getHeight()) {
-            myVelocity = new Point2D(myVelocity.getX(), -myVelocity.getY());
+        else {
+            myView = null;
         }
     }
 
@@ -83,8 +67,18 @@ public class Brick {
         return myView;
     }
 
-    // Returns an "interesting", non-zero random value in the range (min, max)
-    private int getRandomInRange (int min, int max) {
-        return min + dice.nextInt(max - min) + 1;
-    }
+    /**
+     * Returns the existence status of the brick.
+     */
+    public boolean getExists () {return exists;}
+
+    /**
+     * Returns whether the brick is hard.
+     */
+    public boolean getIsHard () {return isHard;}
+
+    /**
+     * Returns whether the brick has powerup.
+     */
+    public boolean getHasPowerup () {return hasPowerup;}
 }
