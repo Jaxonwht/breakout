@@ -76,7 +76,7 @@ public class Physics {
         if (bouncerView.getBoundsInParent().intersects(paddleView.getBoundsInParent())){
             beep();
             bouncer.reverseYDirection();
-            if (bouncerView.getBoundsInParent().getMinX() < paddleView.getBoundsInParent().getMinX() || bouncerView.getBoundsInParent().getMaxX() > paddleView.getBoundsInParent().getMaxX()) {
+            if (bouncerView.getBoundsInParent().getMinX() < paddleView.getBoundsInParent().getMinX() + 0.1 * Paddle.PADDLE_WIDTH || bouncerView.getBoundsInParent().getMaxX() > paddleView.getBoundsInParent().getMaxX() - 0.1 * Paddle.PADDLE_WIDTH) {
                 bouncer.reverseXDirection();
             }
         }
