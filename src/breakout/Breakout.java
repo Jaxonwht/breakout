@@ -31,13 +31,15 @@ public class Breakout extends Application {
     public static final double HIGH_PROBABILITY = 0.9;
     public static final int BRICKS_PER_ROW = 10;
     public static final double TOP_ROW = 0.05 * HEIGHT;
+    public static final String PADDLE_IMAGE = "paddle.gif";
+    public static final int NUMBER_OF_LAYERS = 5;
 
 
     // objects used in this game
     private Scene myScene;
     private List<Brick> myBricks = new ArrayList<>();
     private Bouncer myBouncer;
-    private Powerup myPowerup;
+    private Paddle myPaddle;
 
     /**
      * Initialize what will be displayed and how it will be updated.
@@ -67,8 +69,11 @@ public class Breakout extends Application {
         var bouncerImage = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
         myBouncer = new Bouncer(bouncerImage, width, height);
         root.getChildren().add(myBouncer.getView());
+        // Make a paddle.
+        var paddleImage = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
+        myPaddle = new Paddle(paddleImage, width, height);
         // make some bricks
-        generateBricks(root,7, width, height);
+        generateBricks(root, NUMBER_OF_LAYERS, width, height);
         // respond to input
         //scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         //scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));

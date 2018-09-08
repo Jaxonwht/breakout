@@ -19,6 +19,9 @@ public class Brick {
     public static final double POWERUP_PROBABILITY = 0.1;
     public static final double HARD_PROBABILITY = 0.2;
     public static final double PERMANENT_PROBABILITY = 0.05;
+    public static final int NORMAL_HEALTH = 1;
+    public static final int HARD_HEALTH = 3;
+    public static final int PERMANENT_HEALTH = Integer.MAX_VALUE;
 
     private Random dice;
     private ImageView myView;
@@ -49,19 +52,19 @@ public class Brick {
         if (exists) {
             // Creates three kinds of bricks, powerups, hard and permanent bricks.
             var brickImage = NORMAL_BRICK_IMAGE;
-            health = 1;
+            health = NORMAL_HEALTH;
             if (isHard && hasPowerup) {
                 brickImage = HARD_AND_POWERUP_BRICK_IMAGE;
-                health = 3;
+                health = HARD_HEALTH;
             }
             else if (isHard && !hasPowerup) {
                 brickImage = HARD_BRICK_IMAGE;
-                health = 3;
+                health = HARD_HEALTH;
             }
             else if (!isHard && hasPowerup) {brickImage = POWERUP_BRICK_IMAGE;}
             if (isPermanent) {
                 brickImage = PERMANENT_BRICK_IMAGE;
-                health = Integer.MAX_VALUE;
+                health = PERMANENT_HEALTH;
             }
             myView = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream(brickImage)));
             // Set the position of the created brick.

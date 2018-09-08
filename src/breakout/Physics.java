@@ -1,7 +1,7 @@
 package breakout;
 
 /**
- * A class that contains all the static methods that
+ * A class that contains all the static methods that determine the motion of the bouncer when interacting with various objects.
  */
 public class Physics {
     /**
@@ -45,6 +45,15 @@ public class Physics {
     public static void move (Bouncer bouncer, double elapsedTime){
         bouncer.getView().setX(bouncer.getView().getX() + bouncer.getVelocity().getX() * elapsedTime);
         bouncer.getView().setY(bouncer.getView().getY() + bouncer.getVelocity().getY() * elapsedTime);
+    }
+
+    /**
+     * A method that describes the motion of bouncer bouncing off the paddle
+     * @param bouncer
+     * @param paddle
+     */
+    public static void bounceWithPaddle (Bouncer bouncer, Paddle paddle) {
+
     }
 }
 

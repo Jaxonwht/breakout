@@ -34,7 +34,7 @@ public class Bouncer {
         myView.setFitHeight(BOUNCER_SIZE);
         // make sure it stays within the bounds
         myView.setX(screenWidth / 2 - BOUNCER_SIZE / 2);
-        myView.setY(screenHeight - BOUNCER_SIZE);
+        myView.setY(screenHeight - BOUNCER_SIZE - Paddle.PADDLE_HEIGHT);
         // turn speed into velocity that can be updated on bounces
         setVelocity(getRandomInRange(BOUNCER_MIN_SPEED, BOUNCER_MAX_SPEED), -1 * BOUNCER_Y_SPEED);
     }
