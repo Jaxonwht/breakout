@@ -20,7 +20,7 @@ import java.util.List;
  */
 public class Breakout extends Application {
     public static final String TITLE = "Breakout by Haotian";
-    public static final double WIDTH = 400;
+    public static final double WIDTH = 900;
     public static final double HEIGHT = 800;
     public static final int FRAMES_PER_SECOND = 60;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
@@ -28,7 +28,7 @@ public class Breakout extends Application {
     public static final Paint BACKGROUND = Color.AZURE;
     public static final Paint HIGHLIGHT = Color.OLIVEDRAB;
     public static final String BOUNCER_IMAGE = "ball.gif";
-    public static final double HIGH_PROBABILITY = 0.8;
+    public static final double HIGH_PROBABILITY = 0.9;
     public static final int BRICKS_PER_ROW = 10;
     public static final double TOP_ROW = 0.05 * HEIGHT;
 
@@ -68,7 +68,7 @@ public class Breakout extends Application {
         myBouncer = new Bouncer(bouncerImage, width, height);
         root.getChildren().add(myBouncer.getView());
         // make some bricks
-        generateBricks(root,5, width, height);
+        generateBricks(root,7, width, height);
         // respond to input
         //scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         //scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
@@ -87,11 +87,11 @@ public class Breakout extends Application {
             probabilities.add(HIGH_PROBABILITY - HIGH_PROBABILITY / layer * i);
         }
         double brickWidth = width / BRICKS_PER_ROW;
-        double brickHeight =  0.4 * height / layer;
+        double brickHeight =  0.5 * height / layer;
         for (int x = 0; x < width - brickWidth; x += brickWidth) {
             for (int i = 0; i < layer; i++) {
-                double y = TOP_ROW + layer * brickHeight + 0.01 * height;
-                var myBrick = new Brick(x, y, brickWidth, brickHeight, probabilities.get(i));
+                double y = TOP_ROW + i * brickHeight;
+                var myBrick = new Brick(x, y, brickWidth, brickHeight / 3 * 2, probabilities.get(i));
                 if (myBrick.getView() != null) root.getChildren().add(myBrick.getView());
                 myBricks.add(myBrick);
             }
@@ -102,15 +102,16 @@ public class Breakout extends Application {
     // Note, there are more sophisticated ways to animate shapes, but these simple ways work fine to start.
     private void step (double elapsedTime) {
         // update attributes
-        myBouncer.move(elapsedTime);
+        Physics.move(myBouncer, elapsedTime);
 
         // with images can only check bounding box
         for (Brick brick : myBricks) {
-            myBouncer.bounceBrick(brick);
+            Physics.bounceWithBrick (myBouncer, brick);
         }
 
         // bounce off all the walls
-        myBouncer.bounce(myScene.getWidth(), myScene.getHeight());
+        //myBouncer.bounce(myScene.getWidth(), myScene.getHeight());
+        Physics.bounceWithWall(myBouncer, myScene.getWidth(), myScene.getHeight());
     }
 
     // What to do each time a key is pressed

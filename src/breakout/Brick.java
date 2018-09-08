@@ -15,23 +15,29 @@ public class Brick {
     public static final String HARD_BRICK_IMAGE = "brick2.gif";
     public static final String POWERUP_BRICK_IMAGE = "brick3.gif";
     public static final String HARD_AND_POWERUP_BRICK_IMAGE = "brick4.gif";
+    public static final String PERMANENT_BRICK_IMAGE = "brick7.gif";
     public static final double POWERUP_PROBABILITY = 0.1;
     public static final double HARD_PROBABILITY = 0.2;
+    public static final double PERMANENT_PROBABILITY = 0.05;
 
-    private Random dice = new Random();
+    private Random dice;
     private ImageView myView;
     private boolean hasPowerup;
     private boolean isHard;
     private boolean exists;
+    private boolean isPermanent;
+    private int health;
 
 
     /**
      * Create a bouncer from a given image with random attributes.
      */
     public Brick (double x, double y, double brickWidth, double brickHeight, double probability) {
+        dice = new Random();
         exists = dice.nextDouble() < probability;
         hasPowerup = exists && dice.nextDouble() < POWERUP_PROBABILITY;
         isHard = exists && dice.nextDouble() < HARD_PROBABILITY;
+        isPermanent = exists && dice.nextDouble() < PERMANENT_PROBABILITY;
         generateView(x, y, brickWidth, brickHeight);
     }
 
@@ -41,10 +47,22 @@ public class Brick {
     private void generateView (double x, double y, double brickWidth, double brickHeight) {
         // Only creates myView if events happen with the probability.
         if (exists) {
+            // Creates three kinds of bricks, powerups, hard and permanent bricks.
             var brickImage = NORMAL_BRICK_IMAGE;
-            if (isHard && hasPowerup) {brickImage = HARD_AND_POWERUP_BRICK_IMAGE;}
-            else if (isHard && !hasPowerup) {brickImage = HARD_BRICK_IMAGE;}
+            health = 1;
+            if (isHard && hasPowerup) {
+                brickImage = HARD_AND_POWERUP_BRICK_IMAGE;
+                health = 3;
+            }
+            else if (isHard && !hasPowerup) {
+                brickImage = HARD_BRICK_IMAGE;
+                health = 3;
+            }
             else if (!isHard && hasPowerup) {brickImage = POWERUP_BRICK_IMAGE;}
+            if (isPermanent) {
+                brickImage = PERMANENT_BRICK_IMAGE;
+                health = Integer.MAX_VALUE;
+            }
             myView = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream(brickImage)));
             // Set the position of the created brick.
             myView.setX(x);
@@ -79,4 +97,17 @@ public class Brick {
      * Returns whether the brick has powerup.
      */
     public boolean getHasPowerup () {return hasPowerup;}
+
+    /**
+     * Emulates the block being hit exactly once
+     */
+    public void getHit() {
+        health -= 1;
+        if (health == 0) {
+            myView = null;
+            isHard = false;
+            hasPowerup = false;
+            exists = false;
+        }
+    }
 }

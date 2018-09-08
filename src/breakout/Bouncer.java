@@ -1,7 +1,6 @@
 package breakout;
 
 import javafx.geometry.Point2D;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -14,10 +13,10 @@ import java.util.Random;
  * @author Robert C. Duvall
  */
 public class Bouncer {
-    public static final int BOUNCER_MIN_SPEED = -100;
-    public static final int BOUNCER_MAX_SPEED = 100;
-    public static final int BOUNCER_Y_SPEED = 50;
-    public static final int BOUNCER_SIZE = 5;
+    public static final double BOUNCER_MIN_SPEED = -100;
+    public static final double BOUNCER_MAX_SPEED = 100;
+    public static final double BOUNCER_Y_SPEED = 100;
+    public static final double BOUNCER_SIZE = 10;
 
     private ImageView myView;
     private Point2D myVelocity;
@@ -37,7 +36,21 @@ public class Bouncer {
         myView.setX(screenWidth / 2 - BOUNCER_SIZE / 2);
         myView.setY(screenHeight - BOUNCER_SIZE);
         // turn speed into velocity that can be updated on bounces
-        myVelocity = new Point2D(getRandomInRange(BOUNCER_MIN_SPEED, BOUNCER_MAX_SPEED), -BOUNCER_Y_SPEED);
+        setVelocity(getRandomInRange(BOUNCER_MIN_SPEED, BOUNCER_MAX_SPEED), -1 * BOUNCER_Y_SPEED);
+    }
+
+    /**
+     * Set velocity for the Bouncer object.
+     */
+    public void setVelocity (double x, double y) {
+        myVelocity = new Point2D(x, y);
+    }
+
+    /**
+     * Get velocity for the Bouncer object.
+     */
+    public Point2D getVelocity () {
+        return myVelocity;
     }
 
     /**
@@ -46,42 +59,19 @@ public class Bouncer {
      * Note, elapsedTime is used to ensure consistent speed across different machines.
      */
     public void move (double elapsedTime) {
-        myView.setX(myView.getX() + myVelocity.getX() * elapsedTime);
-        myView.setY(myView.getY() + myVelocity.getY() * elapsedTime);
+
     }
 
-    /**
-     * Bounce off the walls represented by the edges of the screen.
-     */
-    public void bounce (double screenWidth, double screenHeight) {
-        // collide all bouncers against the walls
-        if (myView.getX() < 0 || myView.getX() > screenWidth - myView.getBoundsInLocal().getWidth()) {
-            myVelocity = new Point2D(-myVelocity.getX(), myVelocity.getY());
-        }
-        if (myView.getY() < 0 || myView.getY() > screenHeight - myView.getBoundsInLocal().getHeight()) {
-            myVelocity = new Point2D(myVelocity.getX(), -myVelocity.getY());
-        }
-    }
-
-    /**
-     * Bounce off normal bricks defined in the game.
-     * @param brick
-     */
-    public void bounceBrick (Brick brick) {
-        if (brick.getExists() && myView.getBoundsInParent().intersects(brick.getView().getBoundsInParent())) {
-
-        }
-    }
 
     /**
      * Returns internal view of bouncer to interact with other JavaFX methods.
      */
-    public Node getView () {
+    public ImageView getView () {
         return myView;
     }
 
     // Returns an "interesting", non-zero random value in the range (min, max)
-    private int getRandomInRange (int min, int max) {
-        return min + dice.nextInt(max - min + 1);
+    private double getRandomInRange (double min, double max) {
+        return min + dice.nextDouble() * (max - min);
     }
 }
