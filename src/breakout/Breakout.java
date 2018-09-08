@@ -6,11 +6,8 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
@@ -23,8 +20,8 @@ import java.util.List;
  */
 public class Breakout extends Application {
     public static final String TITLE = "Breakout by Haotian";
-    public static final int WIDTH = 400;
-    public static final int HEIGHT = 600;
+    public static final double WIDTH = 400;
+    public static final double HEIGHT = 800;
     public static final int FRAMES_PER_SECOND = 60;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
@@ -33,12 +30,12 @@ public class Breakout extends Application {
     public static final String BOUNCER_IMAGE = "ball.gif";
     public static final double HIGH_PROBABILITY = 0.8;
     public static final int BRICKS_PER_ROW = 10;
-    public static final int ROWS_HEIGHT = (int) 0.6 * HEIGHT;
+    public static final double TOP_ROW = 0.05 * HEIGHT;
 
 
     // objects used in this game
     private Scene myScene;
-    private List<Brick> myBricks;
+    private List<Brick> myBricks = new ArrayList<>();
     private Bouncer myBouncer;
     private Powerup myPowerup;
 
@@ -61,20 +58,20 @@ public class Breakout extends Application {
     }
 
     // create the game's "scene": what shapes will be in the game and their starting properties
-    private Scene setupGame (int width, int height, Paint background) {
+    private Scene setupGame (double width, double height, Paint background) {
         // create one top level collection to organize the things in the scene
         var root = new Group();
         // create a place to see the shapes
         var scene = new Scene(root, width, height, background);
         // make some shapes and set their properties
-        var paddleImage = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
-        var myBouncer = new Bouncer(paddleImage, width, height);
+        var bouncerImage = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
+        myBouncer = new Bouncer(bouncerImage, width, height);
         root.getChildren().add(myBouncer.getView());
         // make some bricks
-        generateBricks(root,4, width, height);
+        generateBricks(root,5, width, height);
         // respond to input
-        scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
-        scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
+        //scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+        //scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
         return scene;
     }
 
@@ -84,18 +81,18 @@ public class Breakout extends Application {
      * @param width Width of the screen of playing.
      * @param height Height of the screen of playing.
      */
-    private void generateBricks (Group root, int layer, int width, int height) {
+    private void generateBricks (Group root, int layer, double width, double height) {
         var probabilities = new ArrayList<Double>();
         for (int i = 0; i < layer; i++) {
-            probabilities.add(HIGH_PROBABILITY / layer * (i + 1));
+            probabilities.add(HIGH_PROBABILITY - HIGH_PROBABILITY / layer * i);
         }
-        int brickWidth = width / BRICKS_PER_ROW;
-        int brickHeight = ROWS_HEIGHT / layer;
-        for (int x = brickWidth; x < width - brickWidth; x += brickWidth) {
+        double brickWidth = width / BRICKS_PER_ROW;
+        double brickHeight =  0.4 * height / layer;
+        for (int x = 0; x < width - brickWidth; x += brickWidth) {
             for (int i = 0; i < layer; i++) {
-                int y = height - brickHeight * (i + 1);
+                double y = TOP_ROW + layer * brickHeight + 0.01 * height;
                 var myBrick = new Brick(x, y, brickWidth, brickHeight, probabilities.get(i));
-                root.getChildren().add(myBrick.getView());
+                if (myBrick.getView() != null) root.getChildren().add(myBrick.getView());
                 myBricks.add(myBrick);
             }
         }
@@ -114,10 +111,10 @@ public class Breakout extends Application {
 
         // bounce off all the walls
         myBouncer.bounce(myScene.getWidth(), myScene.getHeight());
-        }
     }
 
     // What to do each time a key is pressed
+    /*
     private void handleKeyInput (KeyCode code) {
         if (code == KeyCode.RIGHT) {
             myMover.setX(myMover.getX() + MOVER_SPEED);
@@ -140,7 +137,7 @@ public class Breakout extends Application {
             myGrower.setScaleY(myGrower.getScaleY() * GROWER_RATE);
         }
     }
-
+    */
 
     /**
      * Start the program.

@@ -23,15 +23,13 @@ public class Brick {
     private boolean hasPowerup;
     private boolean isHard;
     private boolean exists;
-    private double myProbability;
 
 
     /**
      * Create a bouncer from a given image with random attributes.
      */
-    public Brick (int x, int y, int brickWidth, int brickHeight, double probability) {
-        myProbability = probability;
-        exists = dice.nextDouble() > myProbability;
+    public Brick (double x, double y, double brickWidth, double brickHeight, double probability) {
+        exists = dice.nextDouble() < probability;
         hasPowerup = exists && dice.nextDouble() < POWERUP_PROBABILITY;
         isHard = exists && dice.nextDouble() < HARD_PROBABILITY;
         generateView(x, y, brickWidth, brickHeight);
@@ -40,7 +38,7 @@ public class Brick {
     /**
      * Generate the view or image for different kinds of bricks. There are three appearances of a brick, has powerup and ishard, has powerup and is not hard, and does not have powerup and is hard.
      */
-    private void generateView (int x, int y, int brickWidth, int brickHeight) {
+    private void generateView (double x, double y, double brickWidth, double brickHeight) {
         // Only creates myView if events happen with the probability.
         if (exists) {
             var brickImage = NORMAL_BRICK_IMAGE;

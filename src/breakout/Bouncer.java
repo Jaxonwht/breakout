@@ -27,16 +27,17 @@ public class Bouncer {
     /**
      * Create a bouncer from a given image with random attributes.
      */
-    public Bouncer (Image image, int screenWidth, int screenHeight) {
+    public Bouncer (Image image, double screenWidth, double screenHeight) {
+        dice = new Random();
         myView = new ImageView(image);
         // make sure it stays a circle
         myView.setFitWidth(BOUNCER_SIZE);
         myView.setFitHeight(BOUNCER_SIZE);
         // make sure it stays within the bounds
-        myView.setX(screenWidth / 2);
-        myView.setY(BOUNCER_SIZE);
+        myView.setX(screenWidth / 2 - BOUNCER_SIZE / 2);
+        myView.setY(screenHeight - BOUNCER_SIZE);
         // turn speed into velocity that can be updated on bounces
-        myVelocity = new Point2D(getRandomInRange(BOUNCER_MIN_SPEED, BOUNCER_MAX_SPEED), BOUNCER_Y_SPEED);
+        myVelocity = new Point2D(getRandomInRange(BOUNCER_MIN_SPEED, BOUNCER_MAX_SPEED), -BOUNCER_Y_SPEED);
     }
 
     /**
@@ -68,7 +69,7 @@ public class Bouncer {
      */
     public void bounceBrick (Brick brick) {
         if (brick.getExists() && myView.getBoundsInParent().intersects(brick.getView().getBoundsInParent())) {
-            myVelocity = new Point2D(my1)
+
         }
     }
 
