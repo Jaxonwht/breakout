@@ -1,5 +1,6 @@
 package breakout;
 
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 
@@ -9,6 +10,9 @@ import javafx.scene.media.MediaPlayer;
 public class Physics {
     public static final String COLLISION_SOUND_FILE = "pong_beep.wav";
 
+    /**
+     * A method that plays the beeping media file when the ball collides with other objects.
+     */
     public static void beep () {
         String mediaFile = Physics.class.getClassLoader().getResource(COLLISION_SOUND_FILE).toExternalForm();
         MediaPlayer musicPlayer = new MediaPlayer(new Media(mediaFile));
@@ -22,12 +26,10 @@ public class Physics {
      */
     public static void bounceWithWall (Bouncer b, double screenWidth, double screenHeight){
         if (b.getView().getX() < 0 || b.getView().getX() > screenWidth - b.getView().getBoundsInLocal().getWidth()) {
-            b.setVelocity(-1 * b.getVelocity().getX(), b.getVelocity().getY());
-            beep();
+            b.reverseXDirection();
         }
         if (b.getView().getY() < Breakout.TOP_ROW || b.getView().getY() > screenHeight - b.getView().getBoundsInLocal().getHeight()) {
-            b.setVelocity(b.getVelocity().getX(), -1 * b.getVelocity().getY());
-            beep();
+            b.reverseYDirection();
         }
     }
 
@@ -38,13 +40,13 @@ public class Physics {
      */
     public static void bounceWithBrick (Bouncer bouncer, Brick brick){
         if (brick.getExists() && bouncer.getView().getBoundsInParent().intersects(brick.getView().getBoundsInParent())) {
+            beep();
             if (bouncer.getView().getBoundsInParent().getMinX() >= brick.getView().getBoundsInParent().getMinX() && bouncer.getView().getBoundsInParent().getMaxX() <= brick.getView().getBoundsInParent().getMaxX()){
-                bouncer.setVelocity(bouncer.getVelocity().getX(), -1 * bouncer.getVelocity().getY());
+                bouncer.reverseYDirection();
             }
             else {
-                bouncer.setVelocity(bouncer.getVelocity().getX() * -1, bouncer.getVelocity().getY());
+                bouncer.reverseXDirection();
             }
-            beep();
             brick.getHit();
         }
     }
@@ -66,7 +68,21 @@ public class Physics {
      * @param paddle
      */
     public static void bounceWithPaddle (Bouncer bouncer, Paddle paddle) {
-
+        // Retrieve the ImageView objects of the bouncer and paddle respectively.
+        ImageView bouncerView = bouncer.getView();
+        ImageView paddleView = paddle.getView();
+        // The bouncer will bounce off the paddle according to the rule of reflection if it bounces at the central three quarters of the paddle, and reversing its direction if it hits the left and right one-eighth of the paddle.
+        if (bouncerView.getBoundsInParent().intersects(paddleView.getBoundsInParent())){
+            beep();
+            if ((bouncerView.getBoundsInParent().getMinX() + bouncerView.getBoundsInParent().getMaxX()) / 2 >= paddleView.getBoundsInParent().getMinX() + 1 / 8 * Paddle.PADDLE_WIDTH &&
+                    (bouncerView.getBoundsInParent().getMaxX() + bouncerView.getBoundsInParent().getMaxX()) / 2 <= paddleView.getBoundsInParent().getMinX() + 7 / 8 * Paddle.PADDLE_WIDTH){
+                bouncer.reverseYDirection();
+            }
+            else {
+                bouncer.reverseXDirection();
+                bouncer.reverseYDirection();
+            }
+        }
     }
 }
 

@@ -62,6 +62,20 @@ public class Bouncer {
 
     }
 
+    /**
+     * Reverse the velocity of the bouncer in the x direction.
+     */
+    public void reverseXDirection () {
+        myVelocity = new Point2D(-1 * myVelocity.getX(), myVelocity.getY());
+    }
+
+    /**
+     * Reverse the velocity of the bouncer in the y direction.
+     */
+    public void reverseYDirection () {
+        myVelocity = new Point2D(myVelocity.getX(), -1 * myVelocity.getY());
+    }
+
 
     /**
      * Returns internal view of bouncer to interact with other JavaFX methods.

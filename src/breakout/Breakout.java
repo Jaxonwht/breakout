@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
@@ -34,6 +35,7 @@ public class Breakout extends Application {
     public static final double TOP_ROW = 0.05 * HEIGHT;
     public static final String PADDLE_IMAGE = "paddle.gif";
     public static final int NUMBER_OF_LAYERS = 5;
+    public static final double PADDLE_SPEED = WIDTH / 20;
 
 
     // objects used in this game
@@ -118,12 +120,14 @@ public class Breakout extends Application {
         }
 
         // bounce off all the walls
-        //myBouncer.bounce(myScene.getWidth(), myScene.getHeight());
         Physics.bounceWithWall(myBouncer, myScene.getWidth(), myScene.getHeight());
+
+        // Bounce off the paddle
+        Physics.bounceWithPaddle(myBouncer, myPaddle);
     }
 
     // What to do each time a key is pressed
-    /*
+
     private void handleKeyInput (KeyCode code) {
         if (code == KeyCode.RIGHT) {
             myMover.setX(myMover.getX() + MOVER_SPEED);
@@ -146,7 +150,6 @@ public class Breakout extends Application {
             myGrower.setScaleY(myGrower.getScaleY() * GROWER_RATE);
         }
     }
-    */
 
     /**
      * Start the program.
