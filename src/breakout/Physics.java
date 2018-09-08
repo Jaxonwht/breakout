@@ -28,7 +28,7 @@ public class Physics {
         if (b.getView().getX() < 0 || b.getView().getX() > screenWidth - b.getView().getBoundsInLocal().getWidth()) {
             b.reverseXDirection();
         }
-        if (b.getView().getY() < Breakout.TOP_ROW || b.getView().getY() > screenHeight - b.getView().getBoundsInLocal().getHeight()) {
+        if (b.getView().getY() < Breakout.TOP_ROW) {
             b.reverseYDirection();
         }
     }

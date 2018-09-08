@@ -107,12 +107,48 @@ public class Brick {
      */
     public void getHit() {
         health -= 1;
+        if (health == 1) {
+            isHard = false;
+            if (isHard && hasPowerup) {
+                setImage(POWERUP_BRICK_IMAGE);
+            }
+            else if (isHard && !hasPowerup) {
+                setImage(NORMAL_BRICK_IMAGE);
+            }
+        }
         if (health == 0) {
-            ((Group)myView.getParent()).getChildren().remove(myView);
-            myView = null;
+            setImage(null);
             isHard = false;
             hasPowerup = false;
             exists = false;
         }
+    }
+
+    /**
+     * Change the image of a brick without altering the position and size of the brick.
+     * @param brickImage
+     */
+    private void setImage (String brickImage){
+        // Store the geometry of the current brick in temporary variables so that can be used to create a new brick that has the same geometry.
+        double tempX = myView.getX();
+        double tempY = myView.getY();
+        double tempWidth = myView.getFitWidth();
+        double tempHeight = myView.getFitHeight();
+        // Create a reference to the root node so as to replace the old ImageView node.
+        Group root = (Group) myView.getParent();
+
+        root.getChildren().remove(myView);
+        if (brickImage == null) {
+            myView = null;
+        }
+        else {
+            myView = new ImageView(new Image(this.getClass().getClassLoader().getResourceAsStream(brickImage)));
+            myView.setX(tempX);
+            myView.setY(tempY);
+            myView.setFitWidth(tempWidth);
+            myView.setFitHeight(tempHeight);
+            root.getChildren().add(myView);
+        }
+
     }
 }
