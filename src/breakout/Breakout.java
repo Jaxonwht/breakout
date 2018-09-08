@@ -6,6 +6,7 @@ import javafx.application.Application;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -40,6 +41,7 @@ public class Breakout extends Application {
     private List<Brick> myBricks = new ArrayList<>();
     private Bouncer myBouncer;
     private Paddle myPaddle;
+    public static MediaPlayer musicPlayer;
 
     /**
      * Initialize what will be displayed and how it will be updated.

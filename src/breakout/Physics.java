@@ -1,9 +1,19 @@
 package breakout;
 
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+
 /**
  * A class that contains all the static methods that determine the motion of the bouncer when interacting with various objects.
  */
 public class Physics {
+    public static final String COLLISION_SOUND_FILE = "pong_beep.wav";
+
+    public static void beep () {
+        String mediaFile = Physics.class.getClassLoader().getResource(COLLISION_SOUND_FILE).toExternalForm();
+        MediaPlayer musicPlayer = new MediaPlayer(new Media(mediaFile));
+        musicPlayer.play();
+    }
     /**
      * Bounceer bounces off the walls of the scene.
      * @param b
@@ -13,9 +23,11 @@ public class Physics {
     public static void bounceWithWall (Bouncer b, double screenWidth, double screenHeight){
         if (b.getView().getX() < 0 || b.getView().getX() > screenWidth - b.getView().getBoundsInLocal().getWidth()) {
             b.setVelocity(-1 * b.getVelocity().getX(), b.getVelocity().getY());
+            beep();
         }
         if (b.getView().getY() < Breakout.TOP_ROW || b.getView().getY() > screenHeight - b.getView().getBoundsInLocal().getHeight()) {
             b.setVelocity(b.getVelocity().getX(), -1 * b.getVelocity().getY());
+            beep();
         }
     }
 
@@ -32,6 +44,7 @@ public class Physics {
             else {
                 bouncer.setVelocity(bouncer.getVelocity().getX() * -1, bouncer.getVelocity().getY());
             }
+            beep();
             brick.getHit();
         }
     }
