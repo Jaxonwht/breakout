@@ -7,7 +7,6 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -22,20 +21,19 @@ import java.util.List;
  */
 public class Breakout extends Application {
     public static final String TITLE = "Breakout by Haotian";
-    public static final double WIDTH = 900;
-    public static final double HEIGHT = 800;
+    public static final double WIDTH = 500;
+    public static final double HEIGHT = 500;
     public static final int FRAMES_PER_SECOND = 60;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     public static final Paint BACKGROUND = Color.AZURE;
-    public static final Paint HIGHLIGHT = Color.OLIVEDRAB;
     public static final String BOUNCER_IMAGE = "ball.gif";
     public static final double HIGH_PROBABILITY = 0.9;
     public static final int BRICKS_PER_ROW = 10;
     public static final double TOP_ROW = 0.05 * HEIGHT;
     public static final String PADDLE_IMAGE = "paddle.gif";
     public static final int NUMBER_OF_LAYERS = 5;
-    public static final double PADDLE_SPEED = WIDTH / 20;
+    public static final double PADDLE_SPEED = WIDTH / 30;
 
 
     // objects used in this game
@@ -43,7 +41,6 @@ public class Breakout extends Application {
     private List<Brick> myBricks = new ArrayList<>();
     private Bouncer myBouncer;
     private Paddle myPaddle;
-    public static MediaPlayer musicPlayer;
 
     /**
      * Initialize what will be displayed and how it will be updated.
@@ -80,8 +77,7 @@ public class Breakout extends Application {
         // make some bricks
         generateBricks(root, NUMBER_OF_LAYERS, width, height);
         // respond to input
-        //scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
-        //scene.setOnMouseClicked(e -> handleMouseInput(e.getX(), e.getY()));
+        scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         return scene;
     }
 
@@ -129,25 +125,12 @@ public class Breakout extends Application {
     // What to do each time a key is pressed
 
     private void handleKeyInput (KeyCode code) {
-        if (code == KeyCode.RIGHT) {
-            myMover.setX(myMover.getX() + MOVER_SPEED);
+        // Controls the left and right movement of the paddle
+        if (code == KeyCode.RIGHT && myPaddle.getView().getBoundsInParent().getMaxX() <= myScene.getWidth()) {
+            myPaddle.getView().setX(myPaddle.getView().getX() + PADDLE_SPEED);
         }
-        else if (code == KeyCode.LEFT) {
-            myMover.setX(myMover.getX() - MOVER_SPEED);
-        }
-        else if (code == KeyCode.UP) {
-            myMover.setY(myMover.getY() - MOVER_SPEED);
-        }
-        else if (code == KeyCode.DOWN) {
-            myMover.setY(myMover.getY() + MOVER_SPEED);
-        }
-    }
-
-    // What to do each time a key is pressed
-    private void handleMouseInput (double x, double y) {
-        if (myGrower.contains(x, y)) {
-            myGrower.setScaleX(myGrower.getScaleX() * GROWER_RATE);
-            myGrower.setScaleY(myGrower.getScaleY() * GROWER_RATE);
+        else if (code == KeyCode.LEFT && myPaddle.getView().getBoundsInParent().getMinX() >= 0) {
+            myPaddle.getView().setX(myPaddle.getView().getX() - PADDLE_SPEED);
         }
     }
 

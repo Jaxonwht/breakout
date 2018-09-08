@@ -74,13 +74,9 @@ public class Physics {
         // The bouncer will bounce off the paddle according to the rule of reflection if it bounces at the central three quarters of the paddle, and reversing its direction if it hits the left and right one-eighth of the paddle.
         if (bouncerView.getBoundsInParent().intersects(paddleView.getBoundsInParent())){
             beep();
-            if ((bouncerView.getBoundsInParent().getMinX() + bouncerView.getBoundsInParent().getMaxX()) / 2 >= paddleView.getBoundsInParent().getMinX() + 1 / 8 * Paddle.PADDLE_WIDTH &&
-                    (bouncerView.getBoundsInParent().getMaxX() + bouncerView.getBoundsInParent().getMaxX()) / 2 <= paddleView.getBoundsInParent().getMinX() + 7 / 8 * Paddle.PADDLE_WIDTH){
-                bouncer.reverseYDirection();
-            }
-            else {
+            bouncer.reverseYDirection();
+            if (bouncerView.getBoundsInParent().getMinX() < paddleView.getBoundsInParent().getMinX() || bouncerView.getBoundsInParent().getMaxX() > paddleView.getBoundsInParent().getMaxX()) {
                 bouncer.reverseXDirection();
-                bouncer.reverseYDirection();
             }
         }
     }

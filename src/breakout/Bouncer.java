@@ -13,10 +13,8 @@ import java.util.Random;
  * @author Robert C. Duvall
  */
 public class Bouncer {
-    public static final double BOUNCER_MIN_SPEED = -100;
-    public static final double BOUNCER_MAX_SPEED = 100;
-    public static final double BOUNCER_Y_SPEED = 100;
-    public static final double BOUNCER_SIZE = 0.01 * Math.min(Breakout.WIDTH, Breakout.HEIGHT);
+    public static final double BOUNCER_SPEED = 0.2 * Math.min(Breakout.WIDTH, Breakout.HEIGHT);
+    public static final double BOUNCER_SIZE = 0.02 * Math.min(Breakout.WIDTH, Breakout.HEIGHT);
 
     private ImageView myView;
     private Point2D myVelocity;
@@ -36,7 +34,7 @@ public class Bouncer {
         myView.setX(screenWidth / 2 - BOUNCER_SIZE / 2);
         myView.setY(screenHeight - BOUNCER_SIZE - Paddle.PADDLE_HEIGHT);
         // turn speed into velocity that can be updated on bounces
-        setVelocity(getRandomInRange(BOUNCER_MIN_SPEED, BOUNCER_MAX_SPEED), -1 * BOUNCER_Y_SPEED);
+        setVelocity(getRandomInRange(-1 * BOUNCER_SPEED, BOUNCER_SPEED), -1 * BOUNCER_SPEED);
     }
 
     /**
@@ -58,9 +56,6 @@ public class Bouncer {
      *
      * Note, elapsedTime is used to ensure consistent speed across different machines.
      */
-    public void move (double elapsedTime) {
-
-    }
 
     /**
      * Reverse the velocity of the bouncer in the x direction.
