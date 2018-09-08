@@ -35,7 +35,6 @@ public class Breakout extends Application {
     public static final int NUMBER_OF_LAYERS = 5;
     public static final double PADDLE_SPEED = WIDTH / 30;
 
-
     // objects used in this game
     private Scene myScene;
     private List<Brick> myBricks = new ArrayList<>();
@@ -60,7 +59,13 @@ public class Breakout extends Application {
         animation.play();
     }
 
-    // create the game's "scene": what shapes will be in the game and their starting properties
+    /**
+     * Create the game's "scene": what shapes will be in the game and their starting properties
+     * @param width
+     * @param height
+     * @param background
+     * @return
+     */
     private Scene setupGame (double width, double height, Paint background) {
         // create one top level collection to organize the things in the scene
         var root = new Group();
@@ -104,8 +109,11 @@ public class Breakout extends Application {
         }
     }
 
-    // Change properties of shapes to animate them
-    // Note, there are more sophisticated ways to animate shapes, but these simple ways work fine to start.
+    /**
+     * Change properties of shapes to animate them
+     * Note, there are more sophisticated ways to animate shapes, but these simple ways work fine to start.
+     * @param elapsedTime
+     */
     private void step (double elapsedTime) {
         // update attributes
         Physics.move(myBouncer, elapsedTime);
@@ -122,8 +130,10 @@ public class Breakout extends Application {
         Physics.bounceWithPaddle(myBouncer, myPaddle);
     }
 
-    // What to do each time a key is pressed
-
+    /**
+     * What to do each time a key is pressed
+     * @param code
+     */
     private void handleKeyInput (KeyCode code) {
         // Controls the left and right movement of the paddle
         if (code == KeyCode.RIGHT && myPaddle.getView().getBoundsInParent().getMaxX() <= myScene.getWidth()) {

@@ -107,7 +107,7 @@ public class Brick {
      */
     public void getHit() {
         health -= 1;
-        if (health == 1) {
+        if (health == NORMAL_HEALTH) {
             isHard = false;
             if (isHard && hasPowerup) {
                 setImage(POWERUP_BRICK_IMAGE);

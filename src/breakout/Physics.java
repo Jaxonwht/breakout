@@ -18,6 +18,7 @@ public class Physics {
         MediaPlayer musicPlayer = new MediaPlayer(new Media(mediaFile));
         musicPlayer.play();
     }
+
     /**
      * Bounceer bounces off the walls of the scene.
      * @param b

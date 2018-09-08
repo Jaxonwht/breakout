@@ -52,12 +52,6 @@ public class Bouncer {
     }
 
     /**
-     * Move by taking one step based on its velocity.
-     *
-     * Note, elapsedTime is used to ensure consistent speed across different machines.
-     */
-
-    /**
      * Reverse the velocity of the bouncer in the x direction.
      */
     public void reverseXDirection () {
@@ -71,7 +65,6 @@ public class Bouncer {
         myVelocity = new Point2D(myVelocity.getX(), -1 * myVelocity.getY());
     }
 
-
     /**
      * Returns internal view of bouncer to interact with other JavaFX methods.
      */
@@ -79,7 +72,12 @@ public class Bouncer {
         return myView;
     }
 
-    // Returns an "interesting", non-zero random value in the range (min, max)
+    /**
+     * Returns an "interesting", non-zero random value in the range (min, max)
+     * @param min
+     * @param max
+     * @return
+     */
     private double getRandomInRange (double min, double max) {
         return min + dice.nextDouble() * (max - min);
     }
