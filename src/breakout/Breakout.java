@@ -72,6 +72,7 @@ public class Breakout extends Application {
         // Make a paddle.
         var paddleImage = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
         myPaddle = new Paddle(paddleImage, width, height);
+        root.getChildren().add(myPaddle.getView());
         // make some bricks
         generateBricks(root, NUMBER_OF_LAYERS, width, height);
         // respond to input

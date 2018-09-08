@@ -1,5 +1,6 @@
 package breakout;
 
+import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -107,6 +108,7 @@ public class Brick {
     public void getHit() {
         health -= 1;
         if (health == 0) {
+            ((Group)myView.getParent()).getChildren().remove(myView);
             myView = null;
             isHard = false;
             hasPowerup = false;

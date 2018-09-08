@@ -16,7 +16,7 @@ public class Bouncer {
     public static final double BOUNCER_MIN_SPEED = -100;
     public static final double BOUNCER_MAX_SPEED = 100;
     public static final double BOUNCER_Y_SPEED = 100;
-    public static final double BOUNCER_SIZE = 10;
+    public static final double BOUNCER_SIZE = 0.01 * Math.min(Breakout.WIDTH, Breakout.HEIGHT);
 
     private ImageView myView;
     private Point2D myVelocity;
