@@ -25,7 +25,7 @@ public class Paddle {
         myView.setFitHeight(PADDLE_HEIGHT);
         myView.setFitWidth(PADDLE_WIDTH);
         // Set the starting position of the paddle.
-        myView.setX(width / 2 -PADDLE_WIDTH / 2);
+        myView.setX(width / 2 - PADDLE_WIDTH / 2);
         myView.setY(height - PADDLE_HEIGHT);
     }
 

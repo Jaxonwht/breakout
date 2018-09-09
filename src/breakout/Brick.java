@@ -108,12 +108,13 @@ public class Brick {
     public void getHit() {
         health -= 1;
         if (health == NORMAL_HEALTH) {
-            isHard = false;
             if (isHard && hasPowerup) {
                 setImage(POWERUP_BRICK_IMAGE);
+                isHard = false;
             }
             else if (isHard && !hasPowerup) {
                 setImage(NORMAL_BRICK_IMAGE);
+                isHard = false;
             }
         }
         if (health == 0) {
@@ -136,7 +137,7 @@ public class Brick {
         double tempHeight = myView.getFitHeight();
         // Create a reference to the root node so as to replace the old ImageView node.
         Group root = (Group) myView.getParent();
-
+        // Replace the old ImageView with the new ImageView.
         root.getChildren().remove(myView);
         if (brickImage == null) {
             myView = null;

@@ -37,12 +37,14 @@ public class Breakout extends Application {
     public static final int INITIAL_LIVES = 3;
 
     // objects used in this game
+    private GameController gameController;
     private Scene myScene;
     private List<Brick> myBricks = new ArrayList<>();
     private Bouncer myBouncer;
     private Paddle myPaddle;
     private int myHealth;
     private List<Life> myLives = new ArrayList<>();
+    private Timeline animation;
 
     /**
      * Initialize what will be displayed and how it will be updated.
@@ -56,14 +58,14 @@ public class Breakout extends Application {
         stage.show();
         // attach "game loop" to timeline to play it
         var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
-        var animation = new Timeline();
+        animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
         animation.play();
     }
 
     /**
-     * Create the game's "scene": what shapes will be in the game and their starting properties
+     * Create the game's "scene": what shapes will be in the game and their starting properties.
      * @param width
      * @param height
      * @param background
@@ -92,6 +94,13 @@ public class Breakout extends Application {
         return scene;
     }
 
+    /**
+     * Generate the Life objects needed for the game and add them to root.
+     * @param root
+     * @param myHealth
+     * @param width
+     * @param height
+     */
     private void generateLives (Group root, int myHealth, double width, double height) {
         for (int i = 0; i < myHealth; i++) {
             Life myLife = new Life(width, height, i + 1);
@@ -149,6 +158,7 @@ public class Breakout extends Application {
      * @param code
      */
     private void handleKeyInput (KeyCode code) {
+
         // Controls the left and right movement of the paddle
         if (code == KeyCode.RIGHT && myPaddle.getView().getBoundsInParent().getMaxX() <= myScene.getWidth()) {
             myPaddle.getView().setX(myPaddle.getView().getX() + PADDLE_SPEED);

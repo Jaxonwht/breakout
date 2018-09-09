@@ -35,4 +35,12 @@ public class Life {
     public ImageView getView () {
         return myView;
     }
+
+    /**
+     * Returns the index of the Life object.
+     * @return
+     */
+    public int getLabel () {
+        return myLabel;
+    }
 }
