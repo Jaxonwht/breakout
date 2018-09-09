@@ -1,5 +1,6 @@
 package breakout;
 
+import javafx.animation.Animation;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Application;
@@ -166,7 +167,15 @@ public class Breakout extends Application {
      * @param code
      */
     private void handleKeyInput (KeyCode code) {
-
+        // Pause the game when pressing p.
+        if (code == KeyCode.P) {
+            if (animation.getStatus() == Animation.Status.PAUSED) {
+                animation.play();
+            }
+            else if (animation.getStatus() == Animation.Status.RUNNING) {
+                animation.pause();
+            }
+        }
         // Controls the left and right movement of the paddle
         if (code == KeyCode.RIGHT && myPaddle.getView().getBoundsInParent().getMaxX() <= myScene.getWidth()) {
             myPaddle.getView().setX(myPaddle.getView().getX() + PADDLE_SPEED);
