@@ -11,18 +11,12 @@ public class Paddle {
     public static final double PADDLE_HEIGHT = 0.01 * Breakout.HEIGHT;
 
     private ImageView myView;
-    private double screenWidth;
-    private double screenHeight;
 
     /**
      * Construct a Paddle object looking like paddleImage, and in a screen of width width and height height.
      * @param paddleImage
-     * @param width
-     * @param height
      */
-    public Paddle (Image paddleImage, double width, double height) {
-        screenWidth = width;
-        screenHeight = height;
+    public Paddle (Image paddleImage) {
         // Set the ImageView object of the paddle for interaction with the bouncer.
         myView = new ImageView(paddleImage);
         // Set the geomoetry of the paddle.
@@ -45,7 +39,7 @@ public class Paddle {
         myView.setFitHeight(PADDLE_HEIGHT);
         myView.setFitWidth(PADDLE_WIDTH);
         // Set the starting position of the paddle.
-        myView.setX(screenWidth / 2 - PADDLE_WIDTH / 2);
-        myView.setY(screenHeight - PADDLE_HEIGHT);
+        myView.setX(Breakout.WIDTH / 2 - PADDLE_WIDTH / 2);
+        myView.setY(Breakout.HEIGHT - PADDLE_HEIGHT);
     }
 }

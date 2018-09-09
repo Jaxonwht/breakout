@@ -103,6 +103,12 @@ public class Brick {
     public boolean getHasPowerup () {return hasPowerup;}
 
     /**
+     * Return whether the brick is permanent.
+     * @return
+     */
+    public boolean getIsPermanent () {return isPermanent;}
+
+    /**
      * Emulates the block being hit exactly once
      */
     public void getHit() {

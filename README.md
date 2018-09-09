@@ -79,7 +79,9 @@ Bricks with higher health change to normal color when they reach 1 health.
 With the collision sound feature, sometimes there is lag in the game.
 
 ### Notes
+I removed the difference between screenwidth and scenewidth. In other words, I assumed the player will not adjust the window size after the game starts. This removes a lot of redundant variables.
 
+There are a few places that I should implement methods to interfaces or super classes rather than specific classes in the future, for example, implementing methods to Node rather than to Group for extensibility.
 
 ### Impressions
 There is too much inter-dependency between different classes. I am not that familiar with software design and the time is not plenty, so for now I do not know how to improve it significantly.

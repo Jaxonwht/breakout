@@ -14,10 +14,8 @@ public class Life {
 
     /**
      * Constructor for Life using screen width and screen heights as parameters.
-     * @param screenWdith
-     * @param screenHeight
      */
-    public Life (double screenWdith, double screenHeight, int label){
+    public Life (int label){
         // Set that this life object represents the label-th life
         myLabel = label;
         // Set the image for Life

@@ -64,7 +64,7 @@ public class Breakout extends Application {
         primaryStage = stage;
         // Use a GameController class to control the game.
         // attach scene to the stage and display it
-        myScene = setupGame(WIDTH, HEIGHT, BACKGROUND);
+        myScene = setupGame(BACKGROUND);
         primaryStage.setScene(myScene);
         primaryStage.setTitle(TITLE);
         primaryStage.show();
@@ -77,28 +77,26 @@ public class Breakout extends Application {
 
     /**
      * Create the game's "scene": what shapes will be in the game and their starting properties.
-     * @param width
-     * @param height
      * @param background
      * @return
      */
-    private Scene setupGame (double width, double height, Paint background) {
+    private Scene setupGame (Paint background) {
         // create one top level collection to organize the things in the scene
         var root = new Group();
         // create a place to see the shapes
-        var scene = new Scene(root, width, height, background);
+        var scene = new Scene(root, background);
         // Make a few hearts representing the health that the player has and add the hearts to root.
-        generateLives(root, myHealth, width, height);
+        generateLives(root, myHealth);
         // make some shapes and set their properties
         var bouncerImage = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
-        myBouncer = new Bouncer(bouncerImage, width, height);
+        myBouncer = new Bouncer(bouncerImage);
         root.getChildren().add(myBouncer.getView());
         // Make a paddle.
         var paddleImage = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
-        myPaddle = new Paddle(paddleImage, width, height);
+        myPaddle = new Paddle(paddleImage);
         root.getChildren().add(myPaddle.getView());
         // make some bricks and add existing bricks to root
-        generateBricks(root, NUMBER_OF_LAYERS + myLevel.getLevel(), width, height);
+        generateBricks(root, NUMBER_OF_LAYERS + myLevel.getLevel());
         // Make level text appearing on the top right corner of the scene.
         root.getChildren().add(myLevel.getTextNode());
         // Make a starting text for the game.
@@ -114,12 +112,10 @@ public class Breakout extends Application {
      * Generate the Life objects needed for the game and add them to root.
      * @param root
      * @param myHealth
-     * @param width
-     * @param height
      */
-    private void generateLives (Group root, int myHealth, double width, double height) {
+    private void generateLives (Group root, int myHealth) {
         for (int i = 0; i < myHealth; i++) {
-            Life myLife = new Life(width, height, i + 1);
+            Life myLife = new Life(i + 1);
             myLives.add(myLife);
             root.getChildren().add(myLife.getView());
         }
@@ -128,17 +124,15 @@ public class Breakout extends Application {
     /**
      * Generate bricks based on an algorithm.
      * @param layer Number of rows of bricks.
-     * @param width Width of the screen of playing.
-     * @param height Height of the screen of playing.
      */
-    private void generateBricks (Group root, int layer, double width, double height) {
+    private void generateBricks (Group root, int layer) {
         var probabilities = new ArrayList<Double>();
         for (int i = 0; i < layer; i++) {
-            probabilities.add(HIGH_PROBABILITY - HIGH_PROBABILITY / layer * i);
+            probabilities.add(HIGH_PROBABILITY - 0.5 * HIGH_PROBABILITY / layer * i);
         }
-        double brickWidth = width / BRICKS_PER_ROW;
-        double brickHeight = (RATIO_OF_BRICKS + 0.1 * myLevel.getLevel()) * height / layer;
-        for (int x = 0; x < width - brickWidth; x += brickWidth) {
+        double brickWidth = WIDTH / BRICKS_PER_ROW;
+        double brickHeight = (RATIO_OF_BRICKS + 0.1 * myLevel.getLevel()) * HEIGHT / layer;
+        for (int x = 0; x < WIDTH - brickWidth; x += brickWidth) {
             for (int i = 0; i < layer; i++) {
                 double y = TOP_ROW + i * brickHeight;
                 var myBrick = new Brick(x, y, brickWidth, brickHeight / 3 * 2, probabilities.get(i));
@@ -146,6 +140,19 @@ public class Breakout extends Application {
                 myBricks.add(myBrick);
             }
         }
+    }
+
+    /**
+     * Return whether the player has passed the current level.
+     * @return
+     */
+    private boolean hasPassedLevel () {
+        for (Brick brick : myBricks){
+            if (brick.getExists() && !brick.getIsPermanent()){
+                return false;
+            }
+        }
+        return true;
     }
 
     /**
@@ -161,21 +168,26 @@ public class Breakout extends Application {
             Physics.bounceWithBrick (myBouncer, brick);
         }
         // bounce off all the walls
-        Physics.bounceWithWall(myBouncer, myScene.getWidth(), myScene.getHeight());
+        Physics.bounceWithWall(myBouncer);
         // Bounce off the paddle
         Physics.bounceWithPaddle(myBouncer, myPaddle);
-        // Stop the paddle and ball if the paddle fails to catch the ball.
-        if (myBouncer.getView().getY() > myScene.getHeight()) {
-            myHealth -= 1;
-            myLives.remove(myLives.size() - 1).remove();;
-            animation.stop();
-            myCenterText = new CenterText(CenterText.LOSING_TEXT);
-            ((Group) myScene.getRoot()).getChildren().add(myCenterText.getTextNode());
-        }
         // End the game if the player uses up all lives.
         if (myHealth == 0) {
             animation.stop();
             myCenterText = new CenterText(CenterText.ENDING_TEXT);
+            ((Group) myScene.getRoot()).getChildren().add(myCenterText.getTextNode());
+        }
+        // Stop the paddle and ball if the paddle fails to catch the ball.
+        if (myBouncer.getView().getY() > Breakout.HEIGHT) {
+            myHealth -= 1;
+            myLives.remove(myLives.size() - 1).remove();;
+            animation.stop();
+            if (myHealth == 0) {
+                myCenterText = new CenterText(CenterText.ENDING_TEXT);
+            }
+            else {
+                myCenterText = new CenterText(CenterText.LOSING_TEXT);
+            }
             ((Group) myScene.getRoot()).getChildren().add(myCenterText.getTextNode());
         }
     }
@@ -207,12 +219,14 @@ public class Breakout extends Application {
         }
         // Start the game when Space is pressed.
         else if (code == KeyCode.SPACE) {
-            // Replenish all healths if the player starts over from ending the game.
-            if (myCenterText.getTextNode().getText() == CenterText.ENDING_TEXT) {
-
-            }
-            // Reset the paddle and the bouncer to their default positions.
-            if (myCenterText.getTextNode().getText() == CenterText.LOSING_TEXT) {
+            // Replenish all healths if the player starts over from losing the game.
+            if (myCenterText.getTextNode().getText() == CenterText.ENDING_TEXT || myCenterText.getTextNode().getText() == CenterText.LOSING_TEXT) {
+                // Replenish lives if zero health.
+                if (myCenterText.getTextNode().getText() == CenterText.ENDING_TEXT){
+                    myHealth = INITIAL_LIVES;
+                    generateLives((Group) myScene.getRoot(), myHealth);
+                }
+                // Reset the bouncer and the paddle if lost or ended.
                 myBouncer.reset();
                 myPaddle.reset();
             }

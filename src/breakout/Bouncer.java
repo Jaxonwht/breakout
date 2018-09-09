@@ -19,16 +19,11 @@ public class Bouncer {
     private ImageView myView;
     private Point2D myVelocity;
     private Random dice;
-    private double screenWidth;
-    private double screenHeight;
-
 
     /**
      * Create a bouncer from a given image with random attributes.
      */
-    public Bouncer (Image image, double width, double height) {
-        screenWidth = width;
-        screenHeight = height;
+    public Bouncer (Image image) {
         dice = new Random();
         myView = new ImageView(image);
         // Initializes its geometry and velocity.
@@ -43,8 +38,8 @@ public class Bouncer {
         myView.setFitWidth(BOUNCER_SIZE);
         myView.setFitHeight(BOUNCER_SIZE);
         // make sure it stays within the bounds
-        myView.setX(screenWidth / 2 - BOUNCER_SIZE / 2);
-        myView.setY(screenHeight - BOUNCER_SIZE - Paddle.PADDLE_HEIGHT);
+        myView.setX(Breakout.WIDTH / 2 - BOUNCER_SIZE / 2);
+        myView.setY(Breakout.HEIGHT - BOUNCER_SIZE - Paddle.PADDLE_HEIGHT);
         // turn speed into velocity that can be updated on bounces
         setVelocity(getRandomInRange(-1 * BOUNCER_SPEED, BOUNCER_SPEED), -1 * BOUNCER_SPEED);
     }

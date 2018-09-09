@@ -22,11 +22,9 @@ public class Physics {
     /**
      * Bounceer bounces off the walls of the scene.
      * @param b
-     * @param screenWidth
-     * @param screenHeight
      */
-    public static void bounceWithWall (Bouncer b, double screenWidth, double screenHeight){
-        if (b.getView().getX() < 0 || b.getView().getX() > screenWidth - b.getView().getBoundsInLocal().getWidth()) {
+    public static void bounceWithWall (Bouncer b){
+        if (b.getView().getX() < 0 || b.getView().getX() > Breakout.WIDTH - b.getView().getBoundsInLocal().getWidth()) {
             b.reverseXDirection();
         }
         if (b.getView().getY() < Breakout.TOP_ROW) {
