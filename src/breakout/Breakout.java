@@ -48,15 +48,15 @@ public class Breakout extends Application {
     private int myHealth;
     private List<Life> myLives = new ArrayList<>();
     private Timeline animation;
-    private int myLevel;
+    private Level myLevel;
 
     /**
      * Initialize what will be displayed and how it will be updated.
      */
     @Override
     public void start (Stage stage) {
-        // Set the starting level of the game.
-        myLevel = 1;
+        // Set the myLevel object.
+        myLevel = new Level(1);
         // Set the primary stage of the game.
         primaryStage = stage;
         // Use a GameController class to control the game.
@@ -97,7 +97,9 @@ public class Breakout extends Application {
         myPaddle = new Paddle(paddleImage, width, height);
         root.getChildren().add(myPaddle.getView());
         // make some bricks and add existing bricks to root
-        generateBricks(root, NUMBER_OF_LAYERS + myLevel, width, height);
+        generateBricks(root, NUMBER_OF_LAYERS + myLevel.getLevel(), width, height);
+        // Make level text appearing on the top right corner of the scene.
+        root.getChildren().add(myLevel.getTextNode());
         // respond to input
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         return scene;
@@ -130,7 +132,7 @@ public class Breakout extends Application {
             probabilities.add(HIGH_PROBABILITY - HIGH_PROBABILITY / layer * i);
         }
         double brickWidth = width / BRICKS_PER_ROW;
-        double brickHeight = (RATIO_OF_BRICKS + 0.1 * myLevel) * height / layer;
+        double brickHeight = (RATIO_OF_BRICKS + 0.1 * myLevel.getLevel()) * height / layer;
         for (int x = 0; x < width - brickWidth; x += brickWidth) {
             for (int i = 0; i < layer; i++) {
                 double y = TOP_ROW + i * brickHeight;
@@ -176,8 +178,12 @@ public class Breakout extends Application {
                 animation.pause();
             }
         }
+        // Exit the game if escape key is pressed.
+        else if (code == KeyCode.ESCAPE) {
+            primaryStage.close();
+        }
         // Controls the left and right movement of the paddle
-        if (code == KeyCode.RIGHT && myPaddle.getView().getBoundsInParent().getMaxX() <= myScene.getWidth()) {
+        else if (code == KeyCode.RIGHT && myPaddle.getView().getBoundsInParent().getMaxX() <= myScene.getWidth()) {
             myPaddle.getView().setX(myPaddle.getView().getX() + PADDLE_SPEED);
         }
         else if (code == KeyCode.LEFT && myPaddle.getView().getBoundsInParent().getMinX() >= 0) {
