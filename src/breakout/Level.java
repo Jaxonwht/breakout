@@ -3,6 +3,9 @@ package breakout;
 import javafx.scene.text.Text;
 
 public class Level {
+    public static final double XCOORDINATE = Breakout.WIDTH - 4.5 * Breakout.TOP_ROW;
+    public static final double YCOORDINATE = 0.8 * Breakout.TOP_ROW;
+
     private Text text;
     private int myLevel;
 
@@ -10,8 +13,8 @@ public class Level {
         myLevel = level;
         text = new Text();
         text.setText("Level: " + myLevel);
-        text.setX(Breakout.WIDTH - 2 * Breakout.TOP_ROW);
-        text.setY(0);
+        text.setX(XCOORDINATE);
+        text.setY(YCOORDINATE);
     }
 
     /**

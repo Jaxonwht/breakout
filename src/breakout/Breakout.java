@@ -57,6 +57,8 @@ public class Breakout extends Application {
     public void start (Stage stage) {
         // Set the myLevel object.
         myLevel = new Level(1);
+        // Set the lives that the player has.
+        myHealth = INITIAL_LIVES;
         // Set the primary stage of the game.
         primaryStage = stage;
         // Use a GameController class to control the game.
@@ -86,7 +88,6 @@ public class Breakout extends Application {
         // create a place to see the shapes
         var scene = new Scene(root, width, height, background);
         // Make a few hearts representing the health that the player has and add the hearts to root.
-        myHealth = INITIAL_LIVES;
         generateLives(root, myHealth, width, height);
         // make some shapes and set their properties
         var bouncerImage = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
@@ -192,6 +193,9 @@ public class Breakout extends Application {
         }
     }
 
+    /**
+     * What to do when there is input from the mouse.
+     */
     private void handleMouseInput () {
         // Pause and resume the game when the mouse is clicked.
         if (animation.getStatus() == Animation.Status.PAUSED) {

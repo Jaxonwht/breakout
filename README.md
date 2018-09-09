@@ -25,6 +25,9 @@ https://blog.crisp.se/2012/08/29/perlundholm/window-scene-and-node-coordinates-i
 
 Yanbo Fang's Breakout on GitHub
 https://github.com/yanbofang/breakout_game/blob/master/src/breakout_game/Breakout_Game.java
+
+Handle mouse event anywhere with JavaFX
+https://stackoverflow.com/questions/18597939/handle-mouse-event-anywhere-with-javafx
 ### Running the Program
 
 Main class: Breakout
