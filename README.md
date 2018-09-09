@@ -60,6 +60,8 @@ I have created starting text, winning text, losing text and ending text for the 
 
 The ball makes collision sounds with bricks and the paddle.
 
+Bricks with higher health change to normal color when they reach 1 health.
+
 ### Notes
 
 
