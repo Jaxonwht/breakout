@@ -35,9 +35,11 @@ public class Breakout extends Application {
     public static final int NUMBER_OF_LAYERS = 5;
     public static final double PADDLE_SPEED = WIDTH / 30;
     public static final int INITIAL_LIVES = 3;
+    public static final int FINAL_LEVEL = 3;
+    public static final double RATIO_OF_BRICKS = 0.4;
 
     // objects used in this game
-    private GameController gameController;
+    private Stage primaryStage;
     private Scene myScene;
     private List<Brick> myBricks = new ArrayList<>();
     private Bouncer myBouncer;
@@ -45,17 +47,23 @@ public class Breakout extends Application {
     private int myHealth;
     private List<Life> myLives = new ArrayList<>();
     private Timeline animation;
+    private int myLevel;
 
     /**
      * Initialize what will be displayed and how it will be updated.
      */
     @Override
     public void start (Stage stage) {
+        // Set the starting level of the game.
+        myLevel = 1;
+        // Set the primary stage of the game.
+        primaryStage = stage;
+        // Use a GameController class to control the game.
         // attach scene to the stage and display it
         myScene = setupGame(WIDTH, HEIGHT, BACKGROUND);
-        stage.setScene(myScene);
-        stage.setTitle(TITLE);
-        stage.show();
+        primaryStage.setScene(myScene);
+        primaryStage.setTitle(TITLE);
+        primaryStage.show();
         // attach "game loop" to timeline to play it
         var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
         animation = new Timeline();
@@ -88,7 +96,7 @@ public class Breakout extends Application {
         myPaddle = new Paddle(paddleImage, width, height);
         root.getChildren().add(myPaddle.getView());
         // make some bricks and add existing bricks to root
-        generateBricks(root, NUMBER_OF_LAYERS, width, height);
+        generateBricks(root, NUMBER_OF_LAYERS + myLevel, width, height);
         // respond to input
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         return scene;
@@ -121,7 +129,7 @@ public class Breakout extends Application {
             probabilities.add(HIGH_PROBABILITY - HIGH_PROBABILITY / layer * i);
         }
         double brickWidth = width / BRICKS_PER_ROW;
-        double brickHeight =  0.5 * height / layer;
+        double brickHeight = (RATIO_OF_BRICKS + 0.1 * myLevel) * height / layer;
         for (int x = 0; x < width - brickWidth; x += brickWidth) {
             for (int i = 0; i < layer; i++) {
                 double y = TOP_ROW + i * brickHeight;
