@@ -41,6 +41,9 @@ https://docs.oracle.com/javafx/2/text/jfxpub-text.htm
 How to switch scenes in JavaFX
 https://stackoverflow.com/questions/37200845/how-to-switch-scenes-in-javafx
 
+Oracle documentation on ArrayList
+https://docs.oracle.com/javase/7/docs/api/java/util/ArrayList.html#remove(int)
+
 ### Running the Program
 
 Main class: Breakout
@@ -60,6 +63,8 @@ Click mouse -> Pause and resume the game.
 
 Space -> Start the game.
 
+R -> Reset the game.
+
 Cheat keys:
 
 Known Bugs:
@@ -70,7 +75,11 @@ I don't know how to place the CenterText at the real center of the screen.
 When the ball hits near the common edge of two bricks, it will likely remove both bricks and not get bounced. The problem lies in the Physics class.
 
 Extra credit:
-I have created starting text, winning text, losing text and ending text for the game that appear at appropriate times.
+I have created starting text, winning text, losing text and ending text for the game that appear at appropriate times. There are four status of the game besides normal playing. Starting, Winning, Ending and Congratulation. In each case the screen applies different treatment to the nodes.
+Lose: The paddle fails to catch the ball.
+Win: The player passes the current level.
+End: The player loses all the lives.
+Congratulation: The player passes FINAL_LEVEL.
 
 The ball makes collision sounds with bricks and the paddle.
 
@@ -78,10 +87,14 @@ Bricks with higher health change to normal color when they reach 1 health.
 
 With the collision sound feature, sometimes there is lag in the game.
 
+I Will display congratulation text after the player breaks all levels.
+
 ### Notes
 I removed the difference between screenwidth and scenewidth. In other words, I assumed the player will not adjust the window size after the game starts. This removes a lot of redundant variables.
 
 There are a few places that I should implement methods to interfaces or super classes rather than specific classes in the future, for example, implementing methods to Node rather than to Group for extensibility.
+
+My scene transitions are not good enough. Originally I planned to have a RootController class that transitions between different roots for the same scene, when the player wins, loses etc. However, I realized it is too difficult for this class to access the various objects from root, because they are defined only in Breakout class. This is a design flaw that I should have dealt with better at the start of the project. But then again, at that time, I had no idea how to use JavaFx and relied heavily on codes from lab_bounce. All these are for future reference.
 
 ### Impressions
 There is too much inter-dependency between different classes. I am not that familiar with software design and the time is not plenty, so for now I do not know how to improve it significantly.

@@ -19,7 +19,7 @@ public class Paddle {
     public Paddle (Image paddleImage) {
         // Set the ImageView object of the paddle for interaction with the bouncer.
         myView = new ImageView(paddleImage);
-        // Set the geomoetry of the paddle.
+        // Set the geometry of the paddle.
         reset();
     }
 

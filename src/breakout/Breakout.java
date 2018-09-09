@@ -29,7 +29,7 @@ public class Breakout extends Application {
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     public static final Paint BACKGROUND = Color.AZURE;
     public static final String BOUNCER_IMAGE = "ball.gif";
-    public static final double HIGH_PROBABILITY = 0.9;
+    public static final double HIGH_PROBABILITY = 0.0;
     public static final int BRICKS_PER_ROW = 10;
     public static final double TOP_ROW = 0.05 * HEIGHT;
     public static final String PADDLE_IMAGE = "paddle.gif";
@@ -81,10 +81,19 @@ public class Breakout extends Application {
      * @return
      */
     private Scene setupGame (Paint background) {
-        // create one top level collection to organize the things in the scene
-        var root = new Group();
+        // Setup the root used for the game.
+        Group root = setUpRoot();
         // create a place to see the shapes
         var scene = new Scene(root, background);
+        // respond to input
+        scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+        scene.setOnMouseClicked(e -> handleMouseInput());
+        return scene;
+    }
+
+    private Group setUpRoot () {
+        // create one top level collection to organize the things in the scene
+        var root = new Group();
         // Make a few hearts representing the health that the player has and add the hearts to root.
         generateLives(root, myHealth);
         // make some shapes and set their properties
@@ -102,10 +111,7 @@ public class Breakout extends Application {
         // Make a starting text for the game.
         myCenterText = new CenterText(CenterText.STARTING_TEXT);
         root.getChildren().add(myCenterText.getTextNode());
-        // respond to input
-        scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
-        scene.setOnMouseClicked(e -> handleMouseInput());
-        return scene;
+        return root;
     }
 
     /**
@@ -132,7 +138,7 @@ public class Breakout extends Application {
         }
         double brickWidth = WIDTH / BRICKS_PER_ROW;
         double brickHeight = (RATIO_OF_BRICKS + 0.1 * myLevel.getLevel()) * HEIGHT / layer;
-        for (int x = 0; x < WIDTH - brickWidth; x += brickWidth) {
+        for (int x = 0; x <= WIDTH - brickWidth; x += brickWidth) {
             for (int i = 0; i < layer; i++) {
                 double y = TOP_ROW + i * brickHeight;
                 var myBrick = new Brick(x, y, brickWidth, brickHeight / 3 * 2, probabilities.get(i));
@@ -180,7 +186,7 @@ public class Breakout extends Application {
         // Stop the paddle and ball if the paddle fails to catch the ball.
         if (myBouncer.getView().getY() > Breakout.HEIGHT) {
             myHealth -= 1;
-            myLives.remove(myLives.size() - 1).remove();;
+            myLives.remove(myLives.size() - 1).remove();
             animation.stop();
             if (myHealth == 0) {
                 myCenterText = new CenterText(CenterText.ENDING_TEXT);
@@ -190,6 +196,16 @@ public class Breakout extends Application {
             }
             ((Group) myScene.getRoot()).getChildren().add(myCenterText.getTextNode());
         }
+        // Restart the game in a higher level if the player clears the current level.
+        if (hasPassedLevel()) {
+            animation.stop();
+            // Display congratulation if the player finishes the game.
+            if (myLevel.getLevel() == FINAL_LEVEL) {
+                myScene.setRoot(new Group(new CenterText(CenterText.CONGRATULAION).getTextNode()));
+            }
+            // If the player does not finish the game, start the game in a higher level.
+            ((Group) myScene.getRoot()).getChildren().add(new CenterText(CenterText.WINNING_TEXT).getTextNode());
+        }
     }
 
     /**
@@ -197,8 +213,14 @@ public class Breakout extends Application {
      * @param code
      */
     private void handleKeyInput (KeyCode code) {
+        // Restart everything if R is pressed.
+        if (code == KeyCode.R) {
+            myHealth = INITIAL_LIVES;
+            myLevel = new Level(1);
+            myScene.setRoot(setUpRoot());
+        }
         // Pause the game when pressing p.
-        if (code == KeyCode.P) {
+        else if (code == KeyCode.P) {
             if (animation.getStatus() == Animation.Status.PAUSED) {
                 animation.play();
             }
@@ -219,20 +241,33 @@ public class Breakout extends Application {
         }
         // Start the game when Space is pressed.
         else if (code == KeyCode.SPACE) {
-            // Replenish all healths if the player starts over from losing the game.
-            if (myCenterText.getTextNode().getText() == CenterText.ENDING_TEXT || myCenterText.getTextNode().getText() == CenterText.LOSING_TEXT) {
-                // Replenish lives if zero health.
-                if (myCenterText.getTextNode().getText() == CenterText.ENDING_TEXT){
-                    myHealth = INITIAL_LIVES;
-                    generateLives((Group) myScene.getRoot(), myHealth);
-                }
-                // Reset the bouncer and the paddle if lost or ended.
-                myBouncer.reset();
-                myPaddle.reset();
+            if (myCenterText == null) {}
+            // If the player finishes or ends the game, reset everything.
+            else if (myCenterText.getTextNode().getText() == CenterText.CONGRATULAION || myCenterText.getTextNode().getText() == CenterText.ENDING_TEXT) {
+                myLevel = new Level(1);
+                myHealth = INITIAL_LIVES;
+                myScene.setRoot(setUpRoot());
             }
-            // Deleting the center text and start the game now.
+            // If the player finishes the current level, proceed to next level, keeping number of lives unchanged.
+            else if (myCenterText.getTextNode().getText() == CenterText.WINNING_TEXT) {
+                myLevel.increaseLevel();
+                myScene.setRoot(setUpRoot());
                 myCenterText.clear();
                 animation.play();
+            }
+            // Restart game if lost
+            else if (myCenterText.getTextNode().getText() == CenterText.LOSING_TEXT) {
+                // Reset the bouncer and the paddle if lost.
+                myBouncer.reset();
+                myPaddle.reset();
+                myCenterText.clear();
+                animation.play();
+            }
+            // Deleting the center text and start the game now.
+            else if (myCenterText.getTextNode().getText() == CenterText.STARTING_TEXT) {
+                myCenterText.clear();
+                animation.play();
+            }
         }
     }
 

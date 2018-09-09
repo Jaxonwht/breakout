@@ -6,10 +6,11 @@ import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 
 public class CenterText {
-    public static final String WINNING_TEXT = "You Won! Press Space to Restart";
+    public static final String WINNING_TEXT = "You Won! Press Space to Next Level";
     public static final String LOSING_TEXT = "You Lost! Press Space to Restart";
     public static final String STARTING_TEXT = "Press Space to Start";
     public static final String ENDING_TEXT = "Game Over! Press Space to Restart";
+    public static final String CONGRATULAION = "Congratulations! You Finished My Crappy Game!\nPress Space to Play Again";
     public static final double XCOORDINATE = 0.25 * Breakout.WIDTH;
     public static final double YCOORDINATE = 0.7 * Breakout.HEIGHT;
     public static final double FONT_SIZE = 0.03 * Breakout.WIDTH;

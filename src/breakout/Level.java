@@ -3,7 +3,7 @@ package breakout;
 import javafx.scene.text.Text;
 
 public class Level {
-    public static final double XCOORDINATE = Breakout.WIDTH - 4.5 * Breakout.TOP_ROW;
+    public static final double XCOORDINATE = Breakout.WIDTH - 2.5 * Breakout.TOP_ROW;
     public static final double YCOORDINATE = 0.8 * Breakout.TOP_ROW;
 
     private Text text;
@@ -31,5 +31,12 @@ public class Level {
      */
     public int getLevel () {
         return myLevel;
+    }
+
+    /**
+     * Increases the level of the game.
+     */
+    public void increaseLevel () {
+        myLevel += 1;
     }
 }

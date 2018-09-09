@@ -43,6 +43,7 @@ public class Brick {
         isHard = exists && dice.nextDouble() < HARD_PROBABILITY;
         isPermanent = exists && dice.nextDouble() < PERMANENT_PROBABILITY;
         generateView(x, y, brickWidth, brickHeight);
+
     }
 
     /**
