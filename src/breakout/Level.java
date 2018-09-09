@@ -28,6 +28,5 @@ public class Level {
      */
     public int getLevel () {
         return myLevel;
-
     }
 }

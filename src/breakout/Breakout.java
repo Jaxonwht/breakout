@@ -102,6 +102,7 @@ public class Breakout extends Application {
         root.getChildren().add(myLevel.getTextNode());
         // respond to input
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
+        scene.setOnMouseClicked(e -> handleMouseInput());
         return scene;
     }
 
@@ -188,6 +189,16 @@ public class Breakout extends Application {
         }
         else if (code == KeyCode.LEFT && myPaddle.getView().getBoundsInParent().getMinX() >= 0) {
             myPaddle.getView().setX(myPaddle.getView().getX() - PADDLE_SPEED);
+        }
+    }
+
+    private void handleMouseInput () {
+        // Pause and resume the game when the mouse is clicked.
+        if (animation.getStatus() == Animation.Status.PAUSED) {
+            animation.play();
+        }
+        else if (animation.getStatus() == Animation.Status.RUNNING) {
+            animation.pause();
         }
     }
 

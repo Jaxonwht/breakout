@@ -36,6 +36,7 @@ Left -> Paddle moves to the left.
 Right -> Paddle moves to the right.
 P -> Pause and resume the game.
 Escape -> Close the stage and thus the game because the application has only one stage.
+Click mouse -> Pause and resume the game.
 
 Cheat keys:
 
