@@ -34,6 +34,10 @@ https://stackoverflow.com/questions/43761138/how-to-properly-switch-scenes-chang
 
 In Javafx 2, how to always draw something on top?
 https://stackoverflow.com/questions/16778633/in-javafx-2-how-to-always-draw-something-on-top
+
+Using Text and Text Effects in JavaFX
+https://docs.oracle.com/javafx/2/text/jfxpub-text.htm
+
 ### Running the Program
 
 Main class: Breakout
