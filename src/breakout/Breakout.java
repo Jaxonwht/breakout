@@ -201,10 +201,14 @@ public class Breakout extends Application {
             animation.stop();
             // Display congratulation if the player finishes the game.
             if (myLevel.getLevel() == FINAL_LEVEL) {
-                myScene.setRoot(new Group(new CenterText(CenterText.CONGRATULAION).getTextNode()));
+                myCenterText = new CenterText(CenterText.CONGRATULAION);
+                myScene.setRoot(new Group(myCenterText.getTextNode()));
             }
             // If the player does not finish the game, start the game in a higher level.
-            ((Group) myScene.getRoot()).getChildren().add(new CenterText(CenterText.WINNING_TEXT).getTextNode());
+            else {
+                myCenterText = new CenterText(CenterText.WINNING_TEXT);
+                ((Group) myScene.getRoot()).getChildren().add(myCenterText.getTextNode());
+            }
         }
     }
 
@@ -244,12 +248,14 @@ public class Breakout extends Application {
             if (myCenterText == null) {}
             // If the player finishes or ends the game, reset everything.
             else if (myCenterText.getTextNode().getText() == CenterText.CONGRATULAION || myCenterText.getTextNode().getText() == CenterText.ENDING_TEXT) {
+                myCenterText.clear();
                 myLevel = new Level(1);
                 myHealth = INITIAL_LIVES;
                 myScene.setRoot(setUpRoot());
             }
             // If the player finishes the current level, proceed to next level, keeping number of lives unchanged.
             else if (myCenterText.getTextNode().getText() == CenterText.WINNING_TEXT) {
+                myCenterText.clear();
                 myLevel.increaseLevel();
                 myScene.setRoot(setUpRoot());
                 myCenterText.clear();

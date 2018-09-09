@@ -38,5 +38,6 @@ public class Level {
      */
     public void increaseLevel () {
         myLevel += 1;
+        text.setText("Level: " + myLevel);
     }
 }
