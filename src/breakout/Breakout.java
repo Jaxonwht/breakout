@@ -34,12 +34,15 @@ public class Breakout extends Application {
     public static final String PADDLE_IMAGE = "paddle.gif";
     public static final int NUMBER_OF_LAYERS = 5;
     public static final double PADDLE_SPEED = WIDTH / 30;
+    public static final int INITIAL_LIVES = 3;
 
     // objects used in this game
     private Scene myScene;
     private List<Brick> myBricks = new ArrayList<>();
     private Bouncer myBouncer;
     private Paddle myPaddle;
+    private int myHealth;
+    private List<Life> myLives = new ArrayList<>();
 
     /**
      * Initialize what will be displayed and how it will be updated.
@@ -71,6 +74,9 @@ public class Breakout extends Application {
         var root = new Group();
         // create a place to see the shapes
         var scene = new Scene(root, width, height, background);
+        // Make a few hearts representing the health that the player has and add the hearts to root.
+        myHealth = INITIAL_LIVES;
+        generateLives(root, myHealth, width, height);
         // make some shapes and set their properties
         var bouncerImage = new Image(this.getClass().getClassLoader().getResourceAsStream(BOUNCER_IMAGE));
         myBouncer = new Bouncer(bouncerImage, width, height);
@@ -79,11 +85,19 @@ public class Breakout extends Application {
         var paddleImage = new Image(this.getClass().getClassLoader().getResourceAsStream(PADDLE_IMAGE));
         myPaddle = new Paddle(paddleImage, width, height);
         root.getChildren().add(myPaddle.getView());
-        // make some bricks
+        // make some bricks and add existing bricks to root
         generateBricks(root, NUMBER_OF_LAYERS, width, height);
         // respond to input
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         return scene;
+    }
+
+    private void generateLives (Group root, int myHealth, double width, double height) {
+        for (int i = 0; i < myHealth; i++) {
+            Life myLife = new Life(width, height, i + 1);
+            myLives.add(myLife);
+            root.getChildren().add(myLife.getView());
+        }
     }
 
     /**
