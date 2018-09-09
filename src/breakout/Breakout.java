@@ -49,6 +49,7 @@ public class Breakout extends Application {
     private List<Life> myLives = new ArrayList<>();
     private Timeline animation;
     private Level myLevel;
+    private CenterText myCenterText;
 
     /**
      * Initialize what will be displayed and how it will be updated.
@@ -72,7 +73,6 @@ public class Breakout extends Application {
         animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
-        animation.play();
     }
 
     /**
@@ -101,6 +101,9 @@ public class Breakout extends Application {
         generateBricks(root, NUMBER_OF_LAYERS + myLevel.getLevel(), width, height);
         // Make level text appearing on the top right corner of the scene.
         root.getChildren().add(myLevel.getTextNode());
+        // Make a starting text for the game.
+        myCenterText = new CenterText(CenterText.STARTING_TEXT);
+        root.getChildren().add(myCenterText.getTextNode());
         // respond to input
         scene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         scene.setOnMouseClicked(e -> handleMouseInput());
@@ -153,17 +156,16 @@ public class Breakout extends Application {
     private void step (double elapsedTime) {
         // update attributes
         Physics.move(myBouncer, elapsedTime);
-
         // with images can only check bounding box
         for (Brick brick : myBricks) {
             Physics.bounceWithBrick (myBouncer, brick);
         }
-
         // bounce off all the walls
         Physics.bounceWithWall(myBouncer, myScene.getWidth(), myScene.getHeight());
-
         // Bounce off the paddle
         Physics.bounceWithPaddle(myBouncer, myPaddle);
+        // Reset the paddle and ball if the paddle fails to catch the ball.
+
     }
 
     /**
@@ -190,6 +192,11 @@ public class Breakout extends Application {
         }
         else if (code == KeyCode.LEFT && myPaddle.getView().getBoundsInParent().getMinX() >= 0) {
             myPaddle.getView().setX(myPaddle.getView().getX() - PADDLE_SPEED);
+        }
+        // Start the game when Space is pressed.
+        else if (code == KeyCode.SPACE) {
+            myCenterText.clear();
+            animation.play();
         }
     }
 

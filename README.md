@@ -28,6 +28,12 @@ https://github.com/yanbofang/breakout_game/blob/master/src/breakout_game/Breakou
 
 Handle mouse event anywhere with JavaFX
 https://stackoverflow.com/questions/18597939/handle-mouse-event-anywhere-with-javafx
+
+How to properly switch scenes/change root node of scene in JavaFX without FXML?
+https://stackoverflow.com/questions/43761138/how-to-properly-switch-scenes-change-root-node-of-scene-in-javafx-without-fxml
+
+In Javafx 2, how to always draw something on top?
+https://stackoverflow.com/questions/16778633/in-javafx-2-how-to-always-draw-something-on-top
 ### Running the Program
 
 Main class: Breakout
@@ -40,17 +46,24 @@ Right -> Paddle moves to the right.
 P -> Pause and resume the game.
 Escape -> Close the stage and thus the game because the application has only one stage.
 Click mouse -> Pause and resume the game.
+Space -> Start the game.
 
 Cheat keys:
 
 Known Bugs:
 When the ball bounces close to the corner of a brick, my algorithm may not correctly determine whether the ball bounces with the top/bottom edges or the left/right edges.
 
-Extra credit:
+I don't know how to place the CenterText at the real center of the screen.
 
+Extra credit:
+I have created starting text, winning text, losing text and ending text for the game that appear at appropriate times.
+
+The ball makes collision sounds with bricks and the paddle.
 
 ### Notes
 
 
 ### Impressions
+There is too much inter-dependency between different classes. I am not that familiar with software design and the time is not plenty, so for now I do not know how to improve it significantly.
 
+I may need to implement a lot more abstract classes in my next project.
