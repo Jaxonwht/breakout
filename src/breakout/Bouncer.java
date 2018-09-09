@@ -19,14 +19,26 @@ public class Bouncer {
     private ImageView myView;
     private Point2D myVelocity;
     private Random dice;
+    private double screenWidth;
+    private double screenHeight;
 
 
     /**
      * Create a bouncer from a given image with random attributes.
      */
-    public Bouncer (Image image, double screenWidth, double screenHeight) {
+    public Bouncer (Image image, double width, double height) {
+        screenWidth = width;
+        screenHeight = height;
         dice = new Random();
         myView = new ImageView(image);
+        // Initializes its geometry and velocity.
+        reset();
+    }
+
+    /**
+     * Set the geometry and velocity of the bouncer to its default
+     */
+    public void reset () {
         // make sure it stays a circle
         myView.setFitWidth(BOUNCER_SIZE);
         myView.setFitHeight(BOUNCER_SIZE);

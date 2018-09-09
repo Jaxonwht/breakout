@@ -1,5 +1,6 @@
 package breakout;
 
+import javafx.scene.Group;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
@@ -42,5 +43,12 @@ public class Life {
      */
     public int getLabel () {
         return myLabel;
+    }
+
+    /**
+     * Remove the Life object from its parent.
+     */
+    public void remove () {
+        ((Group) myView.getParent()).getChildren().remove(myView);
     }
 }

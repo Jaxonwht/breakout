@@ -39,7 +39,7 @@ public class Physics {
      * @param bouncer
      * @param brick
      */
-    public static void bounceWithBrick (Bouncer bouncer, Brick brick){
+    public static void bounceWithBrick (Bouncer bouncer, Brick brick) {
         if (brick.getExists() && bouncer.getView().getBoundsInParent().intersects(brick.getView().getBoundsInParent())) {
             beep();
             if (bouncer.getView().getBoundsInParent().getMinX() >= brick.getView().getBoundsInParent().getMinX() && bouncer.getView().getBoundsInParent().getMaxX() <= brick.getView().getBoundsInParent().getMaxX()){

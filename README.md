@@ -38,6 +38,9 @@ https://stackoverflow.com/questions/16778633/in-javafx-2-how-to-always-draw-some
 Using Text and Text Effects in JavaFX
 https://docs.oracle.com/javafx/2/text/jfxpub-text.htm
 
+How to switch scenes in JavaFX
+https://stackoverflow.com/questions/37200845/how-to-switch-scenes-in-javafx
+
 ### Running the Program
 
 Main class: Breakout
@@ -46,10 +49,15 @@ Data files needed: ball.gif, brick1.gif, brick2.gif, brick3.gif, brick4.gif, pad
 
 Key/Mouse inputs:
 Left -> Paddle moves to the left.
+
 Right -> Paddle moves to the right.
+
 P -> Pause and resume the game.
+
 Escape -> Close the stage and thus the game because the application has only one stage.
+
 Click mouse -> Pause and resume the game.
+
 Space -> Start the game.
 
 Cheat keys:
@@ -59,12 +67,16 @@ When the ball bounces close to the corner of a brick, my algorithm may not corre
 
 I don't know how to place the CenterText at the real center of the screen.
 
+When the ball hits near the common edge of two bricks, it will likely remove both bricks and not get bounced. The problem lies in the Physics class.
+
 Extra credit:
 I have created starting text, winning text, losing text and ending text for the game that appear at appropriate times.
 
 The ball makes collision sounds with bricks and the paddle.
 
 Bricks with higher health change to normal color when they reach 1 health.
+
+With the collision sound feature, sometimes there is lag in the game.
 
 ### Notes
 

@@ -164,8 +164,20 @@ public class Breakout extends Application {
         Physics.bounceWithWall(myBouncer, myScene.getWidth(), myScene.getHeight());
         // Bounce off the paddle
         Physics.bounceWithPaddle(myBouncer, myPaddle);
-        // Reset the paddle and ball if the paddle fails to catch the ball.
-
+        // Stop the paddle and ball if the paddle fails to catch the ball.
+        if (myBouncer.getView().getY() > myScene.getHeight()) {
+            myHealth -= 1;
+            myLives.remove(myLives.size() - 1).remove();;
+            animation.stop();
+            myCenterText = new CenterText(CenterText.LOSING_TEXT);
+            ((Group) myScene.getRoot()).getChildren().add(myCenterText.getTextNode());
+        }
+        // End the game if the player uses up all lives.
+        if (myHealth == 0) {
+            animation.stop();
+            myCenterText = new CenterText(CenterText.ENDING_TEXT);
+            ((Group) myScene.getRoot()).getChildren().add(myCenterText.getTextNode());
+        }
     }
 
     /**
@@ -195,8 +207,18 @@ public class Breakout extends Application {
         }
         // Start the game when Space is pressed.
         else if (code == KeyCode.SPACE) {
-            myCenterText.clear();
-            animation.play();
+            // Replenish all healths if the player starts over from ending the game.
+            if (myCenterText.getTextNode().getText() == CenterText.ENDING_TEXT) {
+
+            }
+            // Reset the paddle and the bouncer to their default positions.
+            if (myCenterText.getTextNode().getText() == CenterText.LOSING_TEXT) {
+                myBouncer.reset();
+                myPaddle.reset();
+            }
+            // Deleting the center text and start the game now.
+                myCenterText.clear();
+                animation.play();
         }
     }
 
