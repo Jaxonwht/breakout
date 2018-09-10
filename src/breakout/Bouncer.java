@@ -41,7 +41,7 @@ public class Bouncer {
         myView.setX(Breakout.WIDTH / 2 - BOUNCER_SIZE / 2);
         myView.setY(Breakout.HEIGHT - BOUNCER_SIZE - Paddle.PADDLE_HEIGHT);
         // turn speed into velocity that can be updated on bounces
-        setVelocity(getRandomInRange(-1.5 * BOUNCER_SPEED, BOUNCER_SPEED), -1 * BOUNCER_SPEED);
+        setVelocity(getRandomInRange(0.5 * BOUNCER_SPEED, 1.5 * BOUNCER_SPEED), -1 * BOUNCER_SPEED);
     }
 
     /**
@@ -94,6 +94,12 @@ public class Bouncer {
      * @return
      */
     private double getRandomInRange (double min, double max) {
-        return min + dice.nextDouble() * (max - min);
+        double temp = min + dice.nextDouble() * (max - min);
+        if (dice.nextDouble() < 0.5) {
+            return temp;
+        }
+        else {
+            return -1 * temp;
+        }
     }
 }

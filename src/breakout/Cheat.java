@@ -46,4 +46,10 @@ public class Cheat {
     public void speedDown () {
         myBouncer.scaleVelocity(Brick.DOWNSCALE);
     }
+
+    public void addLife () {
+        Life newLife = new Life(myLives.size());
+        myLives.add(newLife);
+        myRoot.getChildren().add(newLife.getView());
+    }
 }
