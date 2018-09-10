@@ -229,6 +229,12 @@ public class Breakout extends Application {
         else if (code == KeyCode.S) {
             myCheat.skip();
         }
+        else if (code == KeyCode.U) {
+            myCheat.speedUp();
+        }
+        else if (code == KeyCode.D) {
+            myCheat.speedDown();
+        }
         // Pause the game when pressing p.
         else if (code == KeyCode.P) {
             if (animation.getStatus() == Animation.Status.PAUSED) {

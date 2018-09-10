@@ -22,11 +22,28 @@ public class Cheat {
         myLives = lives;
     }
 
+    /**
+     * Remove all the bricks and therefore jump to the next level.
+     */
     public void skip () {
         for (Brick brick : myBricks) {
             if (brick.getExists()) {
                 brick.remove();
             }
         }
+    }
+
+    /**
+     * Speed up the ball.
+     */
+    public void speedUp () {
+        myBouncer.scaleVelocity(Brick.UPSCALE);
+    }
+
+    /**
+     * Speed down the ball.
+     */
+    public void speedDown () {
+        myBouncer.scaleVelocity(Brick.DOWNSCALE);
     }
 }

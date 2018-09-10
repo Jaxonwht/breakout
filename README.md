@@ -68,6 +68,10 @@ R -> Reset the game.
 Cheat keys:
 S -> Destroy all the bricks and therefore jump to the next level.
 
+D -> Speed down the ball.
+
+U -> Speed up the ball.
+
 Known Bugs:
 When the ball bounces close to the corner of a brick, my algorithm may not correctly determine whether the ball bounces with the top/bottom edges or the left/right edges.
 
