@@ -14,6 +14,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -22,8 +23,8 @@ import java.util.List;
  */
 public class Breakout extends Application {
     public static final String TITLE = "Breakout by Haotian";
-    public static final double WIDTH = 500;
-    public static final double HEIGHT = 500;
+    public static final double WIDTH = 800;
+    public static final double HEIGHT = 800;
     public static final int FRAMES_PER_SECOND = 60;
     public static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
@@ -53,12 +54,15 @@ public class Breakout extends Application {
     private Level myLevel;
     private CenterText myCenterText;
     private Cheat myCheat;
+    private List<Powerup> myPowerups;
 
     /**
      * Initialize what will be displayed and how it will be updated.
      */
     @Override
     public void start (Stage stage) {
+        // Initialize myPowerups.
+        myPowerups = new ArrayList<>();
         // Set the myLevel object.
         myLevel = new Level(1);
         // Set the lives that the player has.
@@ -145,7 +149,7 @@ public class Breakout extends Application {
         for (int x = 0; x <= WIDTH - brickWidth; x += brickWidth) {
             for (int i = 0; i < layer; i++) {
                 double y = TOP_ROW + i * brickHeight;
-                var myBrick = new Brick(x, y, brickWidth, brickHeight / 3 * 2, probabilities.get(i));
+                var myBrick = new Brick(x, y, brickWidth, brickHeight / 3 * 2, probabilities.get(i), myPowerups);
                 if (myBrick.getView() != null) root.getChildren().add(myBrick.getView());
                 myBricks.add(myBrick);
             }
@@ -173,6 +177,29 @@ public class Breakout extends Application {
     private void step (double elapsedTime) {
         // update attributes
         Physics.move(myBouncer, elapsedTime);
+        // Check for interaction between the powerup and the paddle.
+        for (Iterator<Powerup> iterator = myPowerups.iterator(); iterator.hasNext();) {
+            Powerup powerup = iterator.next();
+            Physics.move(powerup, elapsedTime);
+            // Remove the powerup if it goes out of bound.
+            if (powerup.getView().getY() > Breakout.HEIGHT) {
+                powerup.remove();
+                iterator.remove();
+            }
+            // Interacts with the paddle.
+            else if (powerup.getView().getBoundsInParent().intersects(myPaddle.getView().getBoundsInParent())) {
+                if (powerup.getType() == Powerup.ADD_LIFE) {
+                    myCheat.addLife();
+                }
+                else if (powerup.getType() == Powerup.SLOW) {
+                    myCheat.speedDown();
+                    myCheat.speedDown();
+                    myCheat.speedDown();
+                }
+                powerup.remove();
+                iterator.remove();
+            }
+        }
         // with images can only check bounding box
         for (Brick brick : myBricks) {
             Physics.bounceWithBrick (myBouncer, brick);
@@ -223,6 +250,7 @@ public class Breakout extends Application {
     private void handleKeyInput (KeyCode code) {
         // Restart everything if R is pressed.
         if (code == KeyCode.R) {
+            animation.stop();
             myHealth = INITIAL_LIVES;
             myLevel = new Level(1);
             myScene.setRoot(setUpRoot());

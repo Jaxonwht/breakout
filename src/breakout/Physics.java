@@ -64,7 +64,7 @@ public class Physics {
      * @param bouncer
      * @param elapsedTime
      */
-    public static void move (Bouncer bouncer, double elapsedTime){
+    public static void move (Circular bouncer, double elapsedTime){
         bouncer.getView().setX(bouncer.getView().getX() + bouncer.getVelocity().getX() * elapsedTime);
         bouncer.getView().setY(bouncer.getView().getY() + bouncer.getVelocity().getY() * elapsedTime);
     }
@@ -82,7 +82,7 @@ public class Physics {
         if (bouncerView.getBoundsInParent().intersects(paddleView.getBoundsInParent())){
             beep();
             bouncer.reverseYDirection();
-            if (bouncerView.getBoundsInParent().getMinX() < paddleView.getBoundsInParent().getMinX() + 0.05 * paddleView.getBoundsInLocal().getWidth() || bouncerView.getBoundsInParent().getMaxX() > paddleView.getBoundsInParent().getMaxX() - 0.05 * paddleView.getBoundsInLocal().getHeight()) {
+            if (bouncerView.getBoundsInParent().getMinX() < paddleView.getBoundsInParent().getMinX() + 0.1 * paddleView.getBoundsInLocal().getWidth() || bouncerView.getBoundsInParent().getMaxX() > paddleView.getBoundsInParent().getMaxX() - 0.1 * paddleView.getBoundsInLocal().getHeight()) {
                 bouncer.reverseXDirection();
             }
         }

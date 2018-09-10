@@ -1,10 +1,10 @@
 package breakout;
 
 import javafx.scene.Group;
-import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
+import java.util.List;
 import java.util.Random;
 
 
@@ -17,7 +17,7 @@ public class Brick {
     public static final String POWERUP_BRICK_IMAGE = "brick3.gif";
     public static final String HARD_AND_POWERUP_BRICK_IMAGE = "brick4.gif";
     public static final String PERMANENT_BRICK_IMAGE = "brick7.gif";
-    public static final double POWERUP_PROBABILITY = 0.1;
+    public static final double POWERUP_PROBABILITY = 0.2;
     public static final double HARD_PROBABILITY = 0.2;
     public static final double PERMANENT_PROBABILITY = 0.05;
     public static final int NORMAL_HEALTH = 1;
@@ -34,12 +34,12 @@ public class Brick {
     private boolean isUpscale;
     private boolean isDownscale;
     private int health;
-
+    private List<Powerup> myPowerups;
 
     /**
      * Create a bouncer from a given image with random attributes.
      */
-    public Brick (double x, double y, double brickWidth, double brickHeight, double probability) {
+    public Brick (double x, double y, double brickWidth, double brickHeight, double probability, List<Powerup> powerups) {
         dice = new Random();
         exists = dice.nextDouble() < probability;
         hasPowerup = exists && dice.nextDouble() < POWERUP_PROBABILITY;
@@ -55,8 +55,8 @@ public class Brick {
                 isDownscale = false;
             }
         }
+        myPowerups = powerups;
         generateView(x, y, brickWidth, brickHeight);
-
     }
 
     /**
@@ -97,7 +97,7 @@ public class Brick {
     /**
      * Returns internal view of bouncer to interact with other JavaFX methods.
      */
-    public Node getView () {
+    public ImageView getView () {
         return myView;
     }
 
@@ -138,13 +138,25 @@ public class Brick {
      * Remove the brick.
      */
     public void remove() {
+        // Release powerups if there is any.
+        if (hasPowerup) {
+            Powerup powerup;
+            if (dice.nextDouble() < 0.5) {
+                powerup = new Powerup(Powerup.ADD_LIFE, myView.getX(), myView.getY());
+            }
+            else {
+                powerup = new Powerup(Powerup.SLOW, myView.getX(), myView.getY());
+            }
+            ((Group) myView.getParent()).getChildren().add(powerup.getView());
+            myPowerups.add(powerup);
+        }
         setImage(null);
         isHard = false;
-        hasPowerup = false;
         exists = false;
         isDownscale = false;
         isUpscale = false;
         isPermanent = false;
+        hasPowerup = false;
     }
 
     /**

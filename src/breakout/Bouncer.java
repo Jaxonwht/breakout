@@ -12,9 +12,9 @@ import java.util.Random;
  *
  * @author Robert C. Duvall
  */
-public class Bouncer {
+public class Bouncer implements  Circular{
     public static final double BOUNCER_SPEED = 0.2 * Math.min(Breakout.WIDTH, Breakout.HEIGHT);
-    public static final double BOUNCER_SIZE = 0.02 * Math.min(Breakout.WIDTH, Breakout.HEIGHT);
+    public static final double BOUNCER_SIZE = 0.01 * Math.min(Breakout.WIDTH, Breakout.HEIGHT);
 
     private ImageView myView;
     private Point2D myVelocity;
