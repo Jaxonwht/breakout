@@ -40,6 +40,14 @@ public class Physics {
     public static void bounceWithBrick (Bouncer bouncer, Brick brick) {
         if (brick.getExists() && bouncer.getView().getBoundsInParent().intersects(brick.getView().getBoundsInParent())) {
             beep();
+            // Scale the velocity of the ball upon hit with certain bricks
+            if (brick.getIsUpscale()) {
+                bouncer.scaleVelocity(Brick.UPSCALE);
+            }
+            else if (brick.getIsDownscale()) {
+                bouncer.scaleVelocity(Brick.DOWNSCALE);
+            }
+            // Check which side of the brick that the ball collides with.
             if (bouncer.getView().getBoundsInParent().getMinX() >= brick.getView().getBoundsInParent().getMinX() && bouncer.getView().getBoundsInParent().getMaxX() <= brick.getView().getBoundsInParent().getMaxX()){
                 bouncer.reverseYDirection();
             }

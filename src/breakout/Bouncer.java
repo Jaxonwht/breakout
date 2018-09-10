@@ -31,7 +31,7 @@ public class Bouncer {
     }
 
     /**
-     * Set the geometry and velocity of the bouncer to its default
+     * Set the geometry and velocity of the bouncer to its default.
      */
     public void reset () {
         // make sure it stays a circle
@@ -42,6 +42,14 @@ public class Bouncer {
         myView.setY(Breakout.HEIGHT - BOUNCER_SIZE - Paddle.PADDLE_HEIGHT);
         // turn speed into velocity that can be updated on bounces
         setVelocity(getRandomInRange(-2 * BOUNCER_SPEED, BOUNCER_SPEED), -1 * BOUNCER_SPEED);
+    }
+
+    /**
+     * Scale the velocity of the ball by a factor.
+     * @param scale
+     */
+    public void scaleVelocity (double scale) {
+        myVelocity = new Point2D(scale * myVelocity.getX(), scale * myVelocity.getY());
     }
 
     /**

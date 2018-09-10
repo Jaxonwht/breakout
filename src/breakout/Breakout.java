@@ -29,7 +29,7 @@ public class Breakout extends Application {
     public static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     public static final Paint BACKGROUND = Color.AZURE;
     public static final String BOUNCER_IMAGE = "ball.gif";
-    public static final double HIGH_PROBABILITY = 0.0;
+    public static final double HIGH_PROBABILITY = 0.9;
     public static final int BRICKS_PER_ROW = 10;
     public static final double TOP_ROW = 0.05 * HEIGHT;
     public static final String PADDLE_IMAGE = "paddle.gif";

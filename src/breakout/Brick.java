@@ -23,6 +23,9 @@ public class Brick {
     public static final int NORMAL_HEALTH = 1;
     public static final int HARD_HEALTH = 3;
     public static final int PERMANENT_HEALTH = Integer.MAX_VALUE;
+    public static final double SCALE_PROBABILITY = 0.1;
+    public static final double UPSCALE = 1.1;
+    public static final double DOWNSCALE = 1.1;
 
     private Random dice;
     private ImageView myView;
@@ -30,6 +33,8 @@ public class Brick {
     private boolean isHard;
     private boolean exists;
     private boolean isPermanent;
+    private boolean isUpscale;
+    private boolean isDownscale;
     private int health;
 
 
@@ -42,6 +47,16 @@ public class Brick {
         hasPowerup = exists && dice.nextDouble() < POWERUP_PROBABILITY;
         isHard = exists && dice.nextDouble() < HARD_PROBABILITY;
         isPermanent = exists && dice.nextDouble() < PERMANENT_PROBABILITY;
+        if (exists && dice.nextDouble() < SCALE_PROBABILITY) {
+            if (dice.nextDouble() < 0.5) {
+                isUpscale = true;
+                isDownscale = false;
+            }
+            else {
+                isUpscale = false;
+                isDownscale = false;
+            }
+        }
         generateView(x, y, brickWidth, brickHeight);
 
     }
@@ -110,6 +125,18 @@ public class Brick {
     public boolean getIsPermanent () {return isPermanent;}
 
     /**
+     * Get whether the brick accelerates the ball.
+     * @return
+     */
+    public boolean getIsUpscale () {return isUpscale;}
+
+    /**
+     * Return whether the brick decelerates the ball.
+     * @return
+     */
+    public boolean getIsDownscale () {return isDownscale;}
+
+    /**
      * Emulates the block being hit exactly once
      */
     public void getHit() {
@@ -124,11 +151,13 @@ public class Brick {
                 isHard = false;
             }
         }
-        if (health == 0) {
+        else if (health == 0) {
             setImage(null);
             isHard = false;
             hasPowerup = false;
             exists = false;
+            isDownscale = false;
+            isUpscale = false;
         }
     }
 

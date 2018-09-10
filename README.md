@@ -89,6 +89,8 @@ With the collision sound feature, sometimes there is lag in the game.
 
 I Will display congratulation text after the player breaks all levels.
 
+There are bricks that scale the velocity of the ball.
+
 ### Notes
 I removed the difference between screenwidth and scenewidth. In other words, I assumed the player will not adjust the window size after the game starts. This removes a lot of redundant variables.
 
