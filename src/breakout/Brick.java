@@ -137,6 +137,19 @@ public class Brick {
     public boolean getIsDownscale () {return isDownscale;}
 
     /**
+     * Remove the brick.
+     */
+    public void remove() {
+        setImage(null);
+        isHard = false;
+        hasPowerup = false;
+        exists = false;
+        isDownscale = false;
+        isUpscale = false;
+        isPermanent = false;
+    }
+
+    /**
      * Emulates the block being hit exactly once
      */
     public void getHit() {
@@ -152,12 +165,7 @@ public class Brick {
             }
         }
         else if (health == 0) {
-            setImage(null);
-            isHard = false;
-            hasPowerup = false;
-            exists = false;
-            isDownscale = false;
-            isUpscale = false;
+            remove();
         }
     }
 

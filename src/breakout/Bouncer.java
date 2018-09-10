@@ -41,7 +41,7 @@ public class Bouncer {
         myView.setX(Breakout.WIDTH / 2 - BOUNCER_SIZE / 2);
         myView.setY(Breakout.HEIGHT - BOUNCER_SIZE - Paddle.PADDLE_HEIGHT);
         // turn speed into velocity that can be updated on bounces
-        setVelocity(getRandomInRange(-2 * BOUNCER_SPEED, BOUNCER_SPEED), -1 * BOUNCER_SPEED);
+        setVelocity(getRandomInRange(-1.5 * BOUNCER_SPEED, BOUNCER_SPEED), -1 * BOUNCER_SPEED);
     }
 
     /**

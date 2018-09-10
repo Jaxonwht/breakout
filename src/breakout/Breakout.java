@@ -50,6 +50,7 @@ public class Breakout extends Application {
     private Timeline animation;
     private Level myLevel;
     private CenterText myCenterText;
+    private Cheat myCheat;
 
     /**
      * Initialize what will be displayed and how it will be updated.
@@ -111,6 +112,7 @@ public class Breakout extends Application {
         // Make a starting text for the game.
         myCenterText = new CenterText(CenterText.STARTING_TEXT);
         root.getChildren().add(myCenterText.getTextNode());
+        myCheat = new Cheat (root, myPaddle, myBricks, myBouncer, myLives);
         return root;
     }
 
@@ -222,6 +224,10 @@ public class Breakout extends Application {
             myHealth = INITIAL_LIVES;
             myLevel = new Level(1);
             myScene.setRoot(setUpRoot());
+        }
+        // Various cheats for this game.
+        else if (code == KeyCode.S) {
+            myCheat.skip();
         }
         // Pause the game when pressing p.
         else if (code == KeyCode.P) {
