@@ -23,6 +23,20 @@ public class Cheat {
     }
 
     /**
+     * Cheat to scale the length the paddle.
+     */
+    public void scalePaddle (double scale) {
+        myPaddle.reset(myPaddle.getView().getX() + (1 - scale) / 2 * myPaddle.getView().getFitWidth(), myPaddle.getView().getY(), scale * myPaddle.getView().getFitWidth(), myPaddle.getView().getFitHeight());
+    }
+
+    /**
+     * Cheat to reset the length of the paddle to its default.
+     */
+    public void resetPaddleLength () {
+        double scale = Paddle.PADDLE_WIDTH / myPaddle.getView().getFitWidth();
+        scalePaddle(scale);
+    }
+    /**
      * Remove all the bricks and therefore jump to the next level.
      */
     public void skip () {
@@ -37,14 +51,14 @@ public class Cheat {
      * Speed up the ball.
      */
     public void speedUp () {
-        myBouncer.scaleVelocity(Brick.UPSCALE);
+        myBouncer.scaleVelocity(Breakout.UPSCALE);
     }
 
     /**
      * Speed down the ball.
      */
     public void speedDown () {
-        myBouncer.scaleVelocity(Brick.DOWNSCALE);
+        myBouncer.scaleVelocity(Breakout.DOWNSCALE);
     }
 
     public void addLife () {

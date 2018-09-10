@@ -42,10 +42,10 @@ public class Physics {
             beep();
             // Scale the velocity of the ball upon hit with certain bricks
             if (brick.getIsUpscale()) {
-                bouncer.scaleVelocity(Brick.UPSCALE);
+                bouncer.scaleVelocity(Breakout.UPSCALE);
             }
             else if (brick.getIsDownscale()) {
-                bouncer.scaleVelocity(Brick.DOWNSCALE);
+                bouncer.scaleVelocity(Breakout.DOWNSCALE);
             }
             // Check which side of the brick that the ball collides with.
             if (bouncer.getView().getBoundsInParent().getMinX() >= brick.getView().getBoundsInParent().getMinX() && bouncer.getView().getBoundsInParent().getMaxX() <= brick.getView().getBoundsInParent().getMaxX()){

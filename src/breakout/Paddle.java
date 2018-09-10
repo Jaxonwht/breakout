@@ -20,7 +20,7 @@ public class Paddle {
         // Set the ImageView object of the paddle for interaction with the bouncer.
         myView = new ImageView(paddleImage);
         // Set the geometry of the paddle.
-        reset();
+        reset(Breakout.WIDTH / 2 - PADDLE_WIDTH / 2, Breakout.HEIGHT - PADDLE_HEIGHT, PADDLE_WIDTH, PADDLE_HEIGHT);
     }
 
     /**
@@ -34,12 +34,12 @@ public class Paddle {
     /**
      * Set the paddle to its original geometry.
      */
-    public void reset () {
+    public void reset (double x, double y, double width, double height) {
         // Set the size of the paddle.
-        myView.setFitHeight(PADDLE_HEIGHT);
-        myView.setFitWidth(PADDLE_WIDTH);
+        myView.setFitHeight(height);
+        myView.setFitWidth(width);
         // Set the starting position of the paddle.
-        myView.setX(Breakout.WIDTH / 2 - PADDLE_WIDTH / 2);
-        myView.setY(Breakout.HEIGHT - PADDLE_HEIGHT);
+        myView.setX(x);
+        myView.setY(y);
     }
 }

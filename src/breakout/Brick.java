@@ -24,8 +24,6 @@ public class Brick {
     public static final int HARD_HEALTH = 3;
     public static final int PERMANENT_HEALTH = Integer.MAX_VALUE;
     public static final double SCALE_PROBABILITY = 0.1;
-    public static final double UPSCALE = 1.1;
-    public static final double DOWNSCALE = 0.9;
 
     private Random dice;
     private ImageView myView;

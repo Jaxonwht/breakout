@@ -38,6 +38,8 @@ public class Breakout extends Application {
     public static final int INITIAL_LIVES = 3;
     public static final int FINAL_LEVEL = 3;
     public static final double RATIO_OF_BRICKS = 0.4;
+    public static final double UPSCALE = 1.1;
+    public static final double DOWNSCALE = 0.9;
 
     // objects used in this game
     private Stage primaryStage;
@@ -239,6 +241,15 @@ public class Breakout extends Application {
             myHealth += 1;
             myCheat.addLife();
         }
+        else if (code == KeyCode.MINUS) {
+            myCheat.scalePaddle(DOWNSCALE);
+        }
+        else if (code == KeyCode.EQUALS) {
+            myCheat.scalePaddle(UPSCALE);
+        }
+        else if (code == KeyCode.O) {
+            myCheat.resetPaddleLength();
+        }
         // Pause the game when pressing p.
         else if (code == KeyCode.P) {
             if (animation.getStatus() == Animation.Status.PAUSED) {
@@ -281,7 +292,7 @@ public class Breakout extends Application {
             else if (myCenterText.getTextNode().getText() == CenterText.LOSING_TEXT) {
                 // Reset the bouncer and the paddle if lost.
                 myBouncer.reset();
-                myPaddle.reset();
+                myPaddle.reset(Breakout.WIDTH / 2 - Paddle.PADDLE_WIDTH / 2, Breakout.HEIGHT - Paddle.PADDLE_HEIGHT, Paddle.PADDLE_WIDTH, Paddle.PADDLE_HEIGHT);
                 myCenterText.clear();
                 animation.play();
             }
