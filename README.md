@@ -4,7 +4,7 @@ This project implements the game of Breakout.
 
 Name: Haotian Wang
 
-### Timeline
+Timeline
 ---
 Start Date: 09/03/2018
 
@@ -12,7 +12,7 @@ Finish Date: 09/09/2018
 
 Hours Spent: 16
 
-### Resources Used
+Resources Used
 ---
 * [Image for the red heart](https://www.kisspng.com/png-heart-red-valentines-day-font-dark-red-heart-png-c-121777/)
 * [Oracle documentation on javafx.scene.node](https://docs.oracle.com/javase/8/javafx/api/javafx/scene/Node.html)
@@ -27,7 +27,7 @@ Hours Spent: 16
 * [Java - Interfaces](https://www.tutorialspoint.com/java/java_interfaces.htm)
 * [Iterating through a Collection, avoiding ConcurrentModificationException when removing in loop](https://stackoverflow.com/questions/223918/iterating-through-a-collection-avoiding-concurrentmodificationexception-when-re)
 
-### Running the Program
+Running the Program
 ---
 #### Main class:
 Breakout
@@ -79,7 +79,7 @@ Breakout
 * I Will display congratulation text after the player breaks all levels.
 * There are bricks that scale the velocity of the ball.
 
-### Notes
+Notes
 ---
 * I removed the difference between screenwidth and scenewidth. In other words, I assumed the player will not adjust the window size after the game starts. This removes a lot of redundant variables.
 * There are a few places that I should implement methods to interfaces or super classes rather than specific classes in the future, for example, implementing methods to Node rather than to Group for extensibility.
@@ -87,7 +87,7 @@ Breakout
 * Not enough time to implement a score system or more powerups that I really like such as a real laser.
 * There are two kinds of powerups for now. One is to add one life, and another is to slow the ball significantly.
 
-### Impressions
+Impressions
 ---
 * There is too much inter-dependency between different classes. I am not that familiar with software design and the time is not plenty, so for now I do not know how to improve it significantly.
 * I may need to implement a lot more abstract classes in my next project.
