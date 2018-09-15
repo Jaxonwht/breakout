@@ -52,7 +52,7 @@ public class Brick {
             }
             else {
                 isUpscale = false;
-                isDownscale = false;
+                isDownscale = true;
             }
         }
         myPowerups = powerups;
