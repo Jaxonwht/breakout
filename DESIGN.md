@@ -49,7 +49,7 @@ This section is about the major design choices or trade-offs that I faced during
 
 ### Detailed Analysis
 
-###### Uses boolean variables to indicate different kinds of bricks and powerups
+###### Used boolean variables to indicate different kinds of bricks and powerups
 * *Explanation* <br/>
 I used boolean variables to indicate different kinds of bricks and powerups. For example, bricks with and without powerups, hard or normal are all represented by a single class called Brick. Each brick has boolean variables such as isHard and hasPowerup.
 * *Justification* <br/>
